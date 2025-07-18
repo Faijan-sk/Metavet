@@ -1,5 +1,5 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React from 'react'
+import { Link } from 'react-router-dom'
 
 const OnlineStore = () => {
   return (
@@ -13,7 +13,7 @@ const OnlineStore = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
         {/* Prescription Required */}
         <Link to="/prescription">
-          {" "}
+          {' '}
           <div className="text-center">
             <img
               src="./src/assets/MetavetImages/1599608013.bb38993b2d54e7224cea.jpg"
@@ -26,7 +26,7 @@ const OnlineStore = () => {
 
         {/* Cat Products */}
         <Link to="/catproduct">
-          {" "}
+          {' '}
           <div className="text-center">
             <img
               src="./src/assets/MetavetImages/1400142574.c25528fecb848cbfa561.jpg"
@@ -39,7 +39,7 @@ const OnlineStore = () => {
 
         {/* Dog Products */}
         <Link to="/dogproduct">
-          {" "}
+          {' '}
           <div className="text-center">
             <img
               src="./src/assets/MetavetImages/1409217298.b38c41d7e7e3dfd818ab.jpg"
@@ -61,7 +61,7 @@ const OnlineStore = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* Product 1 */}
           <Link to="/frontline">
-            {" "}
+            {' '}
             <div className="text-center">
               <img
                 src="./src/assets/MetavetImages/1400174347.4b8b77bd209eacb0ecab.jpg"
@@ -77,7 +77,7 @@ const OnlineStore = () => {
 
           {/* Product 2 */}
           <Link to="/cosequin">
-            {" "}
+            {' '}
             <div className="text-center">
               <img
                 src="./src/assets/MetavetImages/1604571435.5ec044a48f5ce466ce00.jpg"
@@ -91,7 +91,7 @@ const OnlineStore = () => {
 
           {/* Product 3 */}
           <Link to="/hillsciencecat">
-            {" "}
+            {' '}
             <div className="text-center">
               <img
                 src="./src/assets/MetavetImages/1400172152.3046e47bcd2b667ab29b.jpg"
@@ -112,7 +112,7 @@ const OnlineStore = () => {
       <div className="flex justify-center items-center space-x-12 mb-8">
         {/* Search Box */}
         <Link to="/searchproduct">
-          {" "}
+          {' '}
           <div className="flex flex-col items-center cursor-pointer">
             <svg
               className="w-8 h-8 text-gray-700 mb-2"
@@ -132,7 +132,7 @@ const OnlineStore = () => {
 
         {/* My Account */}
         <Link to="/myaccount">
-          {" "}
+          {' '}
           <div className="flex flex-col items-center cursor-pointer">
             <svg
               className="w-8 h-8 text-gray-700 mb-2"
@@ -151,7 +151,7 @@ const OnlineStore = () => {
         </Link>
         {/* Track Order */}
         <Link to="/myaccount">
-          {" "}
+          {' '}
           <div className="flex flex-col items-center cursor-pointer">
             <svg
               className="w-8 h-8 text-gray-700 mb-2"
@@ -179,7 +179,7 @@ const OnlineStore = () => {
 
         {/* Shopping Bag */}
         <Link to="/shoppingbag">
-          {" "}
+          {' '}
           <div className="flex flex-col items-center cursor-pointer">
             <svg
               className="w-8 h-8 text-gray-700 mb-2"
@@ -198,7 +198,7 @@ const OnlineStore = () => {
         </Link>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default OnlineStore;
+export default OnlineStore

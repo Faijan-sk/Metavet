@@ -1,202 +1,208 @@
-import React from "react";
+import React from 'react'
 
 const TodaysVeterinarian = () => {
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      {/* Today's Veterinarian Section */}
-      <section className="my-12">
-        <h2 className="text-3xl font-semibold text-gray-800 mb-6">
-          Today's Veterinarian
-        </h2>
-        <div className="space-y-8">
-          <p className="text-lg text-gray-600">
-            Veterinarians solemnly swear to use their scientific knowledge and
-            skills "for the benefit of society through the protection of animal
-            health and welfare, the prevention and relief of animal suffering,
-            the conservation of animal resources, the promotion of public
-            health, and the advancement of medical knowledge."
-          </p>
-          <p className="text-lg text-gray-600">
-            Today's veterinarians are in the unique position of being the only
-            doctors educated to protect the health of both animals and people.
-            They are not only educated to meet the health needs of every species
-            of animal but they play an important role in environmental
-            protection, food safety, and public health.
-          </p>
-          <p className="text-lg text-gray-600">
-            In taking The Veterinarian's Oath, a doctor solemnly swears to use
-            his or her scientific knowledge and skills "for the benefit of
-            society, through the protection of animal health, the relief of
-            animal suffering, the conservation of animal resources, and the
-            advancement of medical knowledge."
-          </p>
-          <p className="text-lg text-gray-600">
-            Today nearly 70,000 veterinarians are professionally active in the
-            United States. They provide a wide variety of services in private
-            clinical practice, teaching, research, government service, public
-            health, military service, private industry, and other areas.
-          </p>
-          <p className="text-lg text-gray-600">
-            This section contains articles to help you better understand how
-            veterinary medicine can help you and your pet enjoy the longest and
-            fullest life together.
-          </p>
-        </div>
-      </section>
+    <div className="px-6 py-8 max-w-4xl mx-auto">
+      <h1 className="text-3xl font-bold mb-6 text-center">
+        Today's Veterinarian
+      </h1>
 
-      {/* You & Your Vet Section */}
-      <section className="my-12">
-        <h3 className="text-2xl font-semibold text-gray-800 mb-6">
-          You & Your Vet
-        </h3>
-        <div className="space-y-8">
-          <p className="text-lg text-gray-600">
-            Your veterinarian will rely on your awareness of small changes in
-            your pet's behavior or habits. As the pet owner, you must
-            communicate your pet's health care needs to your veterinarian. No
-            one knows your pet like you. Many signs of illness are subtle. Your
-            veterinarian will rely on your awareness of these changes to make a
-            proper diagnosis.
-          </p>
-        </div>
-      </section>
+      <div className="relative">
+        {/* Timeline vertical line */}
+        <div className="absolute left-8 top-0 bottom-0 w-1 bg-gradient-to-b from-primary to-white rounded-full"></div>
 
-      {/* What We Do Section */}
-      <section className="my-12">
-        <h3 className="text-2xl font-semibold text-gray-800 mb-6">
-          What We Do
-        </h3>
-        <div className="space-y-8">
-          <p className="text-lg text-gray-600">
-            Doctors of Veterinary Medicine and Veterinary Surgeons are medical
-            professionals whose primary responsibility is protecting the health
-            and welfare of animals and people. The term "veterinarian" comes
-            from veterinae, which means "working animals." Every veterinarian
-            has gone through extensive medical training to be prepared for this
-            responsibility.
-          </p>
+        {/* Timeline Item 1 */}
+        <div className="relative flex items-start mb-12">
+          <div className="flex-shrink-0 w-16 h-16 bg-primary rounded-full flex items-center justify-center text-white text-xl font-bold z-10 shadow-lg border-4 border-white">
+            🩺
+          </div>
+          <div className="ml-8 flex-1 space-y-4">
+            <div className="bg-white rounded-xl shadow-lg border-l-4 border-primary p-8 hover:shadow-xl transition-all duration-300 hover:scale-105">
+              <span className="text-sm font-medium text-purple-600 bg-purple-100 px-3 py-1 rounded-full">
+                Today's Veterinarian
+              </span>
+              <p className="mt-4 text-gray-600 leading-relaxed">
+                Veterinarians use their knowledge and skills for the benefit of
+                society — protecting animal welfare, preventing suffering, and
+                advancing public health.
+              </p>
+              <p className="text-gray-600 leading-relaxed">
+                They’re trained to care for both animals and humans,
+                contributing to environmental protection, food safety, and
+                public health systems.
+              </p>
+              <p className="text-gray-600 leading-relaxed">
+                Nearly 70,000 veterinarians are active in the U.S. working in
+                clinics, research, government, military, education, and beyond.
+              </p>
+              <p className="text-gray-600 leading-relaxed">
+                This section helps you understand how veterinarians can improve
+                the life of your pet — and you.
+              </p>
+            </div>
+          </div>
         </div>
-      </section>
 
-      {/* The Veterinary Approach Section */}
-      <section className="my-12">
-        <h3 className="text-2xl font-semibold text-gray-800 mb-6">
-          The Veterinary Approach
-        </h3>
-        <div className="space-y-8">
-          <p className="text-lg text-gray-600">
-            Veterinarians employ state-of-the-art technology that is very
-            similar to technology used in the treatment of humans. Veterinarians
-            in private clinical practice work to prevent disease and other
-            health problems in their patients. They examine animal patients,
-            vaccinate them against diseases, and work to prevent other illnesses
-            and conditions.
-          </p>
+        {/* Timeline Item 2 */}
+        <div className="relative flex items-start mb-12">
+          <div className="flex-shrink-0 w-16 h-16 bg-primary rounded-full flex items-center justify-center text-white text-xl font-bold z-10 shadow-lg border-4 border-white">
+            🤝
+          </div>
+          <div className="ml-8 flex-1">
+            <div className="bg-white rounded-xl shadow-lg border-l-4 border-primary p-8 hover:shadow-xl transition-all duration-300 hover:scale-105">
+              <span className="text-sm font-medium text-green-600 bg-green-100 px-3 py-1 rounded-full">
+                You & Your Vet
+              </span>
+              <p className="mt-4 text-gray-600 leading-relaxed">
+                Your vet relies on your observations to help diagnose your pet’s
+                health. You know your pet best — small behavior changes matter
+                and should be shared.
+              </p>
+            </div>
+          </div>
         </div>
-      </section>
 
-      {/* What We Learn Section */}
-      <section className="my-12">
-        <h3 className="text-2xl font-semibold text-gray-800 mb-6">
-          What We Learn
-        </h3>
-        <div className="space-y-8">
-          <p className="text-lg text-gray-600">
-            Students interested in a career in veterinary medicine should begin
-            their preparation by doing well in general science and biology in
-            junior high school. They need to take a strong science, math, and
-            biology program in high school. Admission into veterinary medical
-            school is competitive. To be considered for admission, students must
-            meet rigorous academic and experiential qualifications.
-          </p>
+        {/* Timeline Item 3 */}
+        <div className="relative flex items-start mb-12">
+          <div className="flex-shrink-0 w-16 h-16 bg-primary rounded-full flex items-center justify-center text-white text-xl font-bold z-10 shadow-lg border-4 border-white">
+            🧑‍⚕️
+          </div>
+          <div className="ml-8 flex-1">
+            <div className="bg-white rounded-xl shadow-lg border-l-4 border-primary p-8 hover:shadow-xl transition-all duration-300 hover:scale-105">
+              <span className="text-sm font-medium text-blue-600 bg-blue-100 px-3 py-1 rounded-full">
+                What We Do
+              </span>
+              <p className="mt-4 text-gray-600 leading-relaxed">
+                Veterinarians are highly trained professionals responsible for
+                the health and welfare of animals and people. The word
+                "veterinarian" comes from "veterinae" — working animals.
+              </p>
+            </div>
+          </div>
         </div>
-      </section>
 
-      {/* Vetopedia Section */}
-      <section className="my-12">
-        <h3 className="text-2xl font-semibold text-gray-800 mb-6">Vetopedia</h3>
-        <div className="space-y-8">
-          <p className="text-lg text-gray-600">
-            Vetopedia is a glossary of terms used by vets in treating animals.
-            Some of the terms include:
-          </p>
-          <ul className="list-disc ml-6 text-lg text-gray-600">
-            <li>
-              AAFCO: Association of American Feed Control Officials; an
-              organization which sets standards for pet food ingredients and
-              minimum daily requirements.
-            </li>
-            <li>
-              Abdomen: A region of the body between the diaphragm and the
-              pelvis.
-            </li>
-            <li>
-              Anal glands: Small glands located near the anus of animals,
-              involved in scent-marking behavior.
-            </li>
-            {/* Add more terms as needed */}
-          </ul>
+        {/* Timeline Item 4 */}
+        <div className="relative flex items-start mb-12">
+          <div className="flex-shrink-0 w-16 h-16 bg-primary rounded-full flex items-center justify-center text-white text-xl font-bold z-10 shadow-lg border-4 border-white">
+            🧪
+          </div>
+          <div className="ml-8 flex-1">
+            <div className="bg-white rounded-xl shadow-lg border-l-4 border-primary p-8 hover:shadow-xl transition-all duration-300 hover:scale-105">
+              <span className="text-sm font-medium text-yellow-600 bg-yellow-100 px-3 py-1 rounded-full">
+                The Veterinary Approach
+              </span>
+              <p className="mt-4 text-gray-600 leading-relaxed">
+                Using modern diagnostic technology, vets prevent disease,
+                vaccinate animals, and promote long-term health in pets through
+                ongoing wellness care.
+              </p>
+            </div>
+          </div>
         </div>
-      </section>
 
-      {/* Client Survey Section */}
-      <section className="my-12">
-        <h3 className="text-2xl font-semibold text-gray-800 mb-6">
-          Client Survey
-        </h3>
-        <div className="space-y-8">
-          <p className="text-lg text-gray-600">
-            The clinic offers our Client Survey online so you can complete it in
-            the convenience of your own home or office. Our mission is to
-            maintain a dedicated, caring, and knowledgeable team committed to
-            providing exceptional client service and Veterinary Health Care. We
-            strive toward excellence through continuing education, technical
-            advances, and compassionate care for all pets entrusted to us.
-          </p>
-          <p className="text-lg text-gray-600">
-            You can help us reach and maintain this level of service by sharing
-            your veterinary needs and expectations. By completing this Client
-            Survey, you will be a part of our team meetings and be assured that
-            your comments will be discussed and acted upon.
-          </p>
-          <p className="text-lg text-gray-600">
-            (Please Note: Your privacy is 100% assured.)
-          </p>
+        {/* Timeline Item 5 */}
+        <div className="relative flex items-start mb-12">
+          <div className="flex-shrink-0 w-16 h-16 bg-primary rounded-full flex items-center justify-center text-white text-xl font-bold z-10 shadow-lg border-4 border-white">
+            🎓
+          </div>
+          <div className="ml-8 flex-1">
+            <div className="bg-white rounded-xl shadow-lg border-l-4 border-primary p-8 hover:shadow-xl transition-all duration-300 hover:scale-105">
+              <span className="text-sm font-medium text-indigo-600 bg-indigo-100 px-3 py-1 rounded-full">
+                What We Learn
+              </span>
+              <p className="mt-4 text-gray-600 leading-relaxed">
+                Veterinary students must excel in science and biology early on.
+                Admission to vet school is highly competitive and requires
+                strong academics and hands-on experience.
+              </p>
+            </div>
+          </div>
         </div>
-      </section>
 
-      {/* Pets4Kids Section */}
-      <section className="my-12">
-        <h3 className="text-2xl font-semibold text-gray-800 mb-6">Pets4Kids</h3>
-        <div className="space-y-8">
-          <p className="text-lg text-gray-600">
-            The Wellness Coloring Book is designed to educate kids about taking
-            care of pets, picking the right pet, and understanding their
-            responsibilities as pet owners.
-          </p>
-          <p className="text-lg text-gray-600">
-            Some activities include: Picking the Right Pet, Welcome Your New Pet
-            Home, Pets Need Proper Grooming, Feed Your Pet a Good Diet, Training
-            Your Pet, Pets Love to Play!, and Pets Can Get Sick Just Like You.
-          </p>
+        {/* Timeline Item 6 */}
+        <div className="relative flex items-start mb-12">
+          <div className="flex-shrink-0 w-16 h-16 bg-primary rounded-full flex items-center justify-center text-white text-xl font-bold z-10 shadow-lg border-4 border-white">
+            📘
+          </div>
+          <div className="ml-8 flex-1">
+            <div className="bg-white rounded-xl shadow-lg border-l-4 border-primary p-8 hover:shadow-xl transition-all duration-300 hover:scale-105">
+              <span className="text-sm font-medium text-pink-600 bg-pink-100 px-3 py-1 rounded-full">
+                Vetopedia
+              </span>
+              <p className="mt-4 text-gray-600 leading-relaxed">
+                A glossary of veterinary terms such as:
+              </p>
+              <ul className="list-disc pl-6 mt-4 space-y-2 text-gray-600">
+                <li>
+                  <strong>AAFCO:</strong> Sets pet food nutrition standards.
+                </li>
+                <li>
+                  <strong>Abdomen:</strong> Area between the diaphragm and
+                  pelvis.
+                </li>
+                <li>
+                  <strong>Anal glands:</strong> Scent glands near the anus.
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
-      </section>
 
-      {/* Printable Games & Puzzles Section */}
-      <section className="my-12">
-        <h3 className="text-2xl font-semibold text-gray-800 mb-6">
-          Printable Games & Puzzles
-        </h3>
-        <div className="space-y-8">
-          <ul className="list-disc ml-6 text-lg text-gray-600">
-            <li>Mac's Pet Word Search</li>
-            <li>Pets in Space Scramble</li>
-            <li>Cosmic Pets Crossword Puzzle</li>
-          </ul>
+        {/* Timeline Item 7 */}
+        <div className="relative flex items-start mb-12">
+          <div className="flex-shrink-0 w-16 h-16 bg-primary rounded-full flex items-center justify-center text-white text-xl font-bold z-10 shadow-lg border-4 border-white">
+            📊
+          </div>
+          <div className="ml-8 flex-1">
+            <div className="bg-white rounded-xl shadow-lg border-l-4 border-primary p-8 hover:shadow-xl transition-all duration-300 hover:scale-105">
+              <span className="text-sm font-medium text-teal-600 bg-teal-100 px-3 py-1 rounded-full">
+                Client Survey
+              </span>
+              <p className="mt-4 text-gray-600 leading-relaxed">
+                We provide a client survey to help improve services. Your
+                feedback helps us provide exceptional care and personalized
+                service.
+              </p>
+              <p className="text-gray-600 leading-relaxed mt-2">
+                Completing the survey helps us address your expectations and
+                improve our practice. (Privacy assured.)
+              </p>
+            </div>
+          </div>
         </div>
-      </section>
+
+        {/* Timeline Item 8 */}
+        <div className="relative flex items-start">
+          <div className="flex-shrink-0 w-16 h-16 bg-primary rounded-full flex items-center justify-center text-white text-xl font-bold z-10 shadow-lg border-4 border-white">
+            🎨
+          </div>
+          <div className="ml-8 flex-1 space-y-6">
+            <div className="bg-white rounded-xl shadow-lg border-l-4 border-primary p-8 hover:shadow-xl transition-all duration-300 hover:scale-105">
+              <span className="text-sm font-medium text-orange-600 bg-orange-100 px-3 py-1 rounded-full">
+                Pets4Kids
+              </span>
+              <p className="mt-4 text-gray-600 leading-relaxed">
+                A coloring book and activity guide for kids to learn how to care
+                for pets, choose the right companion, and build good pet
+                ownership habits.
+              </p>
+            </div>
+
+            <div className="bg-white rounded-xl shadow-lg border-l-4 border-primary p-8 hover:shadow-xl transition-all duration-300 hover:scale-105">
+              <span className="text-sm font-medium text-gray-700 bg-gray-100 px-3 py-1 rounded-full">
+                Games & Puzzles
+              </span>
+              <ul className="list-disc pl-6 mt-4 space-y-2 text-gray-600">
+                <li>Mac's Pet Word Search</li>
+                <li>Pets in Space Scramble</li>
+                <li>Cosmic Pets Crossword Puzzle</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-  );
-};
+  )
+}
 
-export default TodaysVeterinarian;
+export default TodaysVeterinarian

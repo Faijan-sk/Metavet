@@ -1,5 +1,4 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom'
 
 const ShoppingBag = () => {
   return (
@@ -37,7 +36,7 @@ const ShoppingBag = () => {
         <div className="flex justify-center items-center space-x-12 mb-8">
           {/* Search Box */}
           <Link to="/searchproduct">
-            {" "}
+            {' '}
             <div className="flex flex-col items-center cursor-pointer">
               <svg
                 className="w-8 h-8 text-gray-700 mb-2"
@@ -122,7 +121,7 @@ const ShoppingBag = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ShoppingBag;
+export default ShoppingBag

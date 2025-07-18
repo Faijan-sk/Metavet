@@ -1,68 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 
 const navItems = [
   { name: 'Find a Doctor', path: '/finddoctor', active: true },
-  {
-    name: 'Services',
-    hasDropdown: true,
-    dropdownItems: [
-      { label: 'Teleconsultation', path: '/teleconsultation' },
-      { label: 'Treatment Plans/Rx', path: '/treatment-plans-rx' },
-      { label: 'Blood Work', path: '/blood-work' },
-      { label: 'Grooming', path: '/grooming' },
-      { label: 'Kennels/Boarding', path: '/kennels-boarding' },
-      { label: 'Training', path: '/dog-training' },
-      { label: 'Dental', path: '/dental' },
-      { label: 'Vaccines', path: '/vaccines' },
-      { label: 'Parasite Prevention', path: '/parasite-prevention' },
-      { label: 'Spaying or Neutering Your Pet', path: '/spaying-neutering' },
-      { label: 'Nutrition', path: '/nutrition' },
-      { label: 'Behaviour', path: '/behaviour' },
-    ],
-  },
-  {
-    name: 'Patient Center',
-    hasDropdown: true,
-    dropdownItems: [
-      { label: 'What to Expect', path: '/what-to-expect' },
-      { label: 'Payment Options', path: '/payment-options' },
-    ],
-  },
-  {
-    name: 'About Us',
-    hasDropdown: true,
-    dropdownItems: [
-      { label: 'Our Team', path: '/our-team' },
-      { label: 'Meet the Team', path: '/meet-the-team' },
-      { label: 'About Us', path: '/about-us' },
-    ],
-  },
-  {
-    name: 'Resources',
-    hasDropdown: true,
-    dropdownItems: [
-      { label: 'Blogs', path: '/blogs' },
-      { label: 'Pet Health', path: '/pet-health' },
-      { label: 'Choosing Your Pet', path: '/choosing-pet' },
-      { label: 'Living With Your Pet', path: '/livingpet' },
-      { label: 'Video Newsroom', path: '/videonewsroom' },
-      { label: "Today's Veterinarian", path: '/todayveterinarian' },
-      { label: 'Newsletter Archive', path: '/newsletter' },
-      { label: 'Find A Clinic', path: '/hospital' },
-      { label: 'Surgery', path: '/surgery' },
-      { label: 'Radiology', path: '/radiology' },
-      { label: 'FAQ', path: '/faq' },
-    ],
-  },
-  { name: 'Online Store', path: '/store' },
-  { name: 'Contact Us', path: '/contactus' },
-]
-const navItems2 = [
-  { name: 'Health Record', path: '/healthrecord', active: true },
   { name: 'Appointment', path: '/appointment', active: true },
-
-  { name: 'Find a Doctor', path: '/finddoctor', active: true },
+  { name: 'Health Record', path: '/healthrecord', active: true },
+  { name: 'Online Store', path: '/store' },
   {
     name: 'Services',
     hasDropdown: true,
@@ -81,42 +24,6 @@ const navItems2 = [
       { label: 'Behaviour', path: '/behaviour' },
     ],
   },
-  {
-    name: 'Patient Center',
-    hasDropdown: true,
-    dropdownItems: [
-      { label: 'What to Expect', path: '/what-to-expect' },
-      { label: 'Payment Options', path: '/payment-options' },
-    ],
-  },
-  {
-    name: 'About Us',
-    hasDropdown: true,
-    dropdownItems: [
-      { label: 'Our Team', path: '/our-team' },
-      { label: 'Meet the Team', path: '/meet-the-team' },
-      { label: 'About Us', path: '/about-us' },
-    ],
-  },
-  {
-    name: 'Resources',
-    hasDropdown: true,
-    dropdownItems: [
-      { label: 'Blogs', path: '/blogs' },
-      { label: 'Pet Health', path: '/pet-health' },
-      { label: 'Choosing Your Pet', path: '/choosing-pet' },
-      { label: 'Living With Your Pet', path: '/livingpet' },
-      { label: 'Video Newsroom', path: '/videonewsroom' },
-      { label: "Today's Veterinarian", path: '/todayveterinarian' },
-      { label: 'Newsletter Archive', path: '/newsletter' },
-      { label: 'Find A Clinic', path: '/hospital' },
-      { label: 'Surgery', path: '/surgery' },
-      { label: 'Radiology', path: '/radiology' },
-      { label: 'FAQ', path: '/faq' },
-    ],
-  },
-  { name: 'Online Store', path: '/store' },
-  { name: 'Contact Us', path: '/contactus' },
 ]
 
 const Header = () => {
@@ -127,19 +34,55 @@ const Header = () => {
   const [openMobileDropdown, setOpenMobileDropdown] = useState(null)
   const [isMobile, setIsMobile] = useState(false)
 
-  // Check if screen is mobile size (below 1400px)
+  const navItems2 = [
+    ...(isMobile ? navItems : []),
+    {
+      name: 'Patient Center',
+      hasDropdown: true,
+      dropdownItems: [
+        { label: 'What to Expect', path: '/what-to-expect' },
+        { label: 'Payment Options', path: '/payment-options' },
+      ],
+    },
+    {
+      name: 'About Us',
+      hasDropdown: true,
+      dropdownItems: [
+        { label: 'Our Team', path: '/our-team' },
+        { label: 'Meet the Team', path: '/meet-the-team' },
+        { label: 'About Us', path: '/about-us' },
+      ],
+    },
+    {
+      name: 'Resources',
+      hasDropdown: true,
+      dropdownItems: [
+        { label: 'Blogs', path: '/blogs' },
+        { label: 'Pet Health', path: '/pet-health' },
+        { label: 'Choosing Your Pet', path: '/choosing-pet' },
+        { label: 'Living With Your Pet', path: '/livingpet' },
+        { label: 'Video Newsroom', path: '/videonewsroom' },
+        { label: "Today's Veterinarian", path: '/todayveterinarian' },
+        { label: 'Newsletter Archive', path: '/newsletter' },
+        { label: 'Find A Clinic', path: '/hospital' },
+        { label: 'Surgery', path: '/surgery' },
+        { label: 'Radiology', path: '/radiology' },
+        { label: 'FAQ', path: '/faq' },
+      ],
+    },
+    { name: 'Contact Us', path: '/contactus' },
+  ]
+
   useEffect(() => {
     const checkScreenSize = () => {
-      setIsMobile(window.innerWidth < 1400)
+      setIsMobile(window.innerWidth < 991)
     }
 
     checkScreenSize()
     window.addEventListener('resize', checkScreenSize)
-
     return () => window.removeEventListener('resize', checkScreenSize)
   }, [])
 
-  // Close mobile menu when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -155,22 +98,14 @@ const Header = () => {
     return () => document.removeEventListener('click', handleClickOutside)
   }, [isMenuOpen])
 
-  // Prevent body scroll when mobile menu is open
   useEffect(() => {
-    if (isMenuOpen && isMobile) {
-      document.body.style.overflow = 'hidden'
-    } else {
-      document.body.style.overflow = 'unset'
-    }
-
+    document.body.style.overflow = isMenuOpen && isMobile ? 'hidden' : 'unset'
     return () => {
       document.body.style.overflow = 'unset'
     }
   }, [isMenuOpen, isMobile])
 
-  const closeModal = () => {
-    setIsModalOpen(false)
-  }
+  const closeModal = () => setIsModalOpen(false)
 
   const handleImageChange = (e) => {
     const file = e.target.files[0]
@@ -184,15 +119,11 @@ const Header = () => {
   }
 
   const handleDropdownHover = (index) => {
-    if (!isMobile) {
-      setHoveredItem(index)
-    }
+    if (!isMobile) setHoveredItem(index)
   }
 
   const handleDropdownLeave = () => {
-    if (!isMobile) {
-      setHoveredItem(null)
-    }
+    if (!isMobile) setHoveredItem(null)
   }
 
   const toggleMobileDropdown = (index) => {
@@ -207,7 +138,6 @@ const Header = () => {
   return (
     <header className="sticky top-0 shadow-md py-2 sm:py-4 px-4 sm:px-6 lg:px-10 font-sans min-h-[60px] sm:min-h-[70px] tracking-wide relative z-50 bg-primary">
       <div className="flex items-center justify-between w-full">
-        {/* Logo */}
         <div className="flex items-center">
           <Link to="/" className="flex items-center">
             <img
@@ -221,7 +151,6 @@ const Header = () => {
           </Link>
         </div>
 
-        {/* Desktop Navigation - Only show above 1400px */}
         <nav
           className={`${isMobile ? 'hidden' : 'flex'} items-center space-x-1`}
         >
@@ -260,7 +189,6 @@ const Header = () => {
                 )}
               </NavLink>
 
-              {/* Desktop Dropdown */}
               {item.hasDropdown && hoveredItem === index && (
                 <div className="absolute top-full left-0 mt-1 w-64 bg-white rounded-md shadow-lg border border-gray-200 py-2 z-50">
                   {item.dropdownItems.map(({ label, path }, dropdownIndex) => (
@@ -278,9 +206,7 @@ const Header = () => {
           ))}
         </nav>
 
-        {/* Right Side - Profile Button and Mobile Menu Toggle */}
         <div className="flex items-center space-x-3">
-          {/* Profile Button - Hide on mobile (below 1400px) */}
           <button
             onClick={() => setIsModalOpen(true)}
             className={`${
@@ -301,12 +227,9 @@ const Header = () => {
             Profile
           </button>
 
-          {/* Mobile Menu Toggle - Show below 1400px */}
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className={`menu-toggle ${
-              isMobile ? 'block' : 'hidden'
-            } p-2 rounded-md text-white hover:bg-white hover:bg-opacity-10 transition-colors duration-200`}
+            className="menu-toggle block p-2 rounded-md text-white hover:bg-white hover:bg-opacity-10 transition-colors duration-200"
             aria-label="Toggle menu"
           >
             <svg
@@ -337,16 +260,14 @@ const Header = () => {
         </div>
       </div>
 
-      {/* Mobile Menu Overlay - Show below 1400px */}
-      {isMenuOpen && isMobile && (
+      {isMenuOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-40" />
       )}
 
-      {/* Mobile Navigation Menu - Show below 1400px */}
       <div
         className={`mobile-menu fixed top-0 right-0 h-full w-80 max-w-[85vw] bg-white shadow-xl transform transition-transform duration-300 ease-in-out z-50 ${
-          isMobile ? 'block' : 'hidden'
-        } ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}
+          isMenuOpen ? 'translate-x-0' : 'translate-x-full'
+        }`}
       >
         <div className="flex items-center justify-between p-4 border-b border-gray-200">
           <span className="text-lg font-semibold text-gray-800">Menu</span>
@@ -400,28 +321,25 @@ const Header = () => {
                         />
                       </svg>
                     </button>
-
-                    {/* Mobile Dropdown Items */}
+                    {/* Fixed dropdown section */}
                     <div
-                      className={`overflow-hidden transition-all duration-200 ease-in-out ${
+                      className={`transition-all duration-300 ease-in-out ${
                         openMobileDropdown === index
-                          ? 'max-h-96 opacity-100'
-                          : 'max-h-0 opacity-0'
+                          ? 'max-h-screen opacity-100 pb-2'
+                          : 'max-h-0 opacity-0 overflow-hidden'
                       }`}
                     >
-                      <div className="pl-4 py-2 space-y-1">
-                        {item.dropdownItems.map(
-                          ({ label, path }, dropdownIndex) => (
-                            <Link
-                              key={dropdownIndex}
-                              to={path}
-                              onClick={closeMenu}
-                              className="block px-3 py-2 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors duration-200"
-                            >
-                              {label}
-                            </Link>
-                          )
-                        )}
+                      <div className="pl-4 space-y-1">
+                        {item.dropdownItems.map(({ label, path }, i) => (
+                          <Link
+                            key={i}
+                            to={path}
+                            onClick={closeMenu}
+                            className="block px-3 py-2 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors duration-200"
+                          >
+                            {label}
+                          </Link>
+                        ))}
                       </div>
                     </div>
                   </div>
@@ -443,7 +361,6 @@ const Header = () => {
               </div>
             ))}
 
-            {/* Mobile Profile Button */}
             <button
               onClick={() => {
                 setIsModalOpen(true)
@@ -468,7 +385,7 @@ const Header = () => {
         </div>
       </div>
 
-      {/* Profile Modal */}
+      {/* Profile Modal remains unchanged */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white w-full max-w-md mx-auto rounded-lg shadow-xl max-h-[90vh] overflow-y-auto">
@@ -536,7 +453,7 @@ const Header = () => {
                   </label>
                   <input
                     type="text"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     required
                   />
                 </div>
@@ -546,7 +463,7 @@ const Header = () => {
                   </label>
                   <input
                     type="tel"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     required
                   />
                 </div>
@@ -556,7 +473,7 @@ const Header = () => {
                   </label>
                   <input
                     type="email"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     required
                   />
                 </div>
@@ -566,7 +483,7 @@ const Header = () => {
                   </label>
                   <input
                     type="password"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     required
                   />
                 </div>
@@ -574,15 +491,15 @@ const Header = () => {
                   <button
                     type="button"
                     onClick={closeModal}
-                    className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200 transition-colors duration-200"
+                    className="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
-                    className="px-4 py-2 text-sm font-medium text-white bg-primary rounded-md hover:bg-opacity-90 transition-colors duration-200"
+                    className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
                   >
-                    Save Changes
+                    Save
                   </button>
                 </div>
               </form>

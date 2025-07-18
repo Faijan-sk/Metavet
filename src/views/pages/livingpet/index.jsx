@@ -1,156 +1,196 @@
-import React from "react";
+import React from 'react'
 
 const LivingPet = () => {
-  return (
-    <div className="px-4 py-8 max-w-screen-xl mx-auto space-y-8">
-      {/* Section 1 */}
-      <section className="space-y-4">
-        <h1 className="text-3xl font-semibold text-center text-primary">
-          Living With Your Pet
-        </h1>
-        <p className="text-xl text-gray-600 text-center">
-          Your pet relies on you every day for its happiness, health, and
-          well-being. Brushing, bathing, nail and teeth care, and attention to
-          your pet's nutritional needs are important parts of daily pet care.
-        </p>
-        <p className="text-xl text-gray-600 text-center">
-          And what do you do when you are thinking about taking your pet on a
-          trip? Some pets travel better by car, whereas others travel better by
-          air. Still other pets are better off remaining in familiar
-          surroundings. In any case, advance planning and preparation are
-          necessary when traveling with your pet.
-        </p>
-      </section>
-
-      {/* Section 2: Practical Advice */}
-      <section className="space-y-4">
-        <h2 className="text-2xl font-semibold text-primary">
-          Practical Advice
-        </h2>
-        <p className="text-lg text-gray-600">
+  const sections = [
+    {
+      icon: '🏡',
+      tag: 'Daily Pet Care',
+      color: 'rose',
+      content: (
+        <>
+          <p>
+            Your pet relies on you every day for its happiness, health, and
+            well-being. Brushing, bathing, nail and teeth care, and attention to
+            your pet's nutritional needs are important parts of daily pet care.
+          </p>
+          <p className="mt-4">
+            And what do you do when you are thinking about taking your pet on a
+            trip? Some pets travel better by car, whereas others travel better
+            by air. Still other pets are better off remaining in familiar
+            surroundings. In any case, advance planning and preparation are
+            necessary when traveling with your pet.
+          </p>
+        </>
+      ),
+    },
+    {
+      icon: '💡',
+      tag: 'Practical Advice',
+      color: 'green',
+      content: (
+        <p>
           Here's some practical advice: keep your veterinarian's phone number
           handy with your other emergency numbers, just in case! Taking care of
           your pet is a job that lasts all year long. As the seasons change,
           preparations should always be made for the change in weather and
           climate.
         </p>
-      </section>
-
-      {/* Section 3: Bringing Your Pet Home */}
-      <section className="space-y-4">
-        <h2 className="text-2xl font-semibold text-primary">
-          Bringing Your Pet Home
-        </h2>
-        <p className="text-lg text-gray-600">
-          Prepare your house for your pet's arrival. A special place should be
-          designated for it to eat, sleep, and eliminate. Obtain any necessary
-          accessories (eg, collar, leash, ID tag, crate, cage, aquarium, and
-          dishes) before you bring your pet home.
-        </p>
-        <p className="text-lg text-gray-600">
-          For most pets, you will need to pet-proof your home just as you would
-          child-proof your home to avoid accidents. Harmful cleansers, plants,
-          electrical cords, and breakable objects should be kept out of reach.
-          Open windows should be screened.
-        </p>
-      </section>
-
-      {/* Section 4: Indoor vs Outdoor Pets */}
-      <section className="space-y-4">
-        <h2 className="text-2xl font-semibold text-primary">
-          Indoor vs Outdoor Pets
-        </h2>
-        <p className="text-lg text-gray-600">
-          Roaming pets are prime candidates for fights with other animals,
-          traffic accidents, and communicable diseases. Their life span can be
-          expected to be considerably shorter as a result. Most pets are
-          strictly indoor pets and are perfectly content, as long as they have
-          access to food and fresh water at all times.
-        </p>
-        <p className="text-lg text-gray-600">
-          The American Veterinary Medical Association (AVMA) strongly recommends
-          that for a healthier, happier pet you consider keeping your pets
-          indoors only. If your pet must go outside, ensure it is safe by
-          monitoring it and keeping it well-identified.
-        </p>
-      </section>
-
-      {/* Section 5: Create an Environment Your Cat Will Love */}
-      <section className="space-y-4">
-        <h2 className="text-2xl font-semibold text-primary">
-          Create an Environment Your Cat Will Love
-        </h2>
-        <p className="text-lg text-gray-600">
+      ),
+    },
+    {
+      icon: '🚪',
+      tag: 'Bringing Your Pet Home',
+      color: 'yellow',
+      content: (
+        <>
+          <p>
+            Prepare your house for your pet's arrival. A special place should be
+            designated for it to eat, sleep, and eliminate. Obtain any necessary
+            accessories (e.g., collar, leash, ID tag, crate, cage, aquarium, and
+            dishes) before you bring your pet home.
+          </p>
+          <p className="mt-4">
+            For most pets, you will need to pet-proof your home just as you
+            would child-proof your home to avoid accidents. Harmful cleansers,
+            plants, electrical cords, and breakable objects should be kept out
+            of reach. Open windows should be screened.
+          </p>
+        </>
+      ),
+    },
+    {
+      icon: '🌳',
+      tag: 'Indoor vs Outdoor',
+      color: 'blue',
+      content: (
+        <>
+          <p>
+            Roaming pets are prime candidates for fights with other animals,
+            traffic accidents, and communicable diseases. Their life span can be
+            expected to be considerably shorter as a result.
+          </p>
+          <p className="mt-4">
+            The AVMA strongly recommends that for a healthier, happier pet you
+            consider keeping your pets indoors only. If your pet must go
+            outside, ensure it is safe by monitoring it and keeping it
+            well-identified.
+          </p>
+        </>
+      ),
+    },
+    {
+      icon: '🐱',
+      tag: 'Cat-Friendly Environment',
+      color: 'purple',
+      content: (
+        <p>
           The Journal of Feline Medicine and Surgery confirms that feline
           emotional wellbeing, behavior, and physical health are a result of how
           comfortable they are in their environment. Understanding how our cats
-          interact with their environment can help us create a space for owners
-          and cats to mutually thrive.
+          interact with their environment can help us create a space where cats
+          and owners thrive.
         </p>
-      </section>
-
-      {/* Section 6: Exams and Vaccinations */}
-      <section className="space-y-4">
-        <h2 className="text-2xl font-semibold text-primary">
-          Exams and Vaccinations
-        </h2>
-        <p className="text-lg text-gray-600">
-          Experts agree that widespread use of vaccines within the last century
-          has prevented death and disease in millions of animals. Pets, like
-          people, can be protected from some diseases by vaccination. Your
-          veterinarian can provide more detailed guidance.
+      ),
+    },
+    {
+      icon: '💉',
+      tag: 'Exams & Vaccines',
+      color: 'red',
+      content: (
+        <p>
+          Experts agree that widespread use of vaccines has prevented death and
+          disease in millions of animals. Pets, like people, can be protected
+          from some diseases by vaccination. Your vet can provide more detailed
+          guidance.
         </p>
-      </section>
-
-      {/* Section 7: Obedience and Training */}
-      <section className="space-y-4">
-        <h2 className="text-2xl font-semibold text-primary">
-          Obedience and Training
-        </h2>
-        <p className="text-lg text-gray-600">
+      ),
+    },
+    {
+      icon: '🎓',
+      tag: 'Obedience & Training',
+      color: 'indigo',
+      content: (
+        <p>
           Obedience training helps prevent negative encounters between family
           members and the dog. It also reinforces the bond between the
-          handler(s) and the pet. Training is a must for every good family dog,
-          regardless of size or breed!
+          handler(s) and the pet. Training is essential for every family dog!
         </p>
-      </section>
-
-      {/* Section 8: Pet Therapy */}
-      <section className="space-y-4">
-        <h2 className="text-2xl font-semibold text-primary">Pet Therapy</h2>
-        <p className="text-lg text-gray-600">
-          Pet therapy for children is a proven therapy treatment that works for
-          a variety of conditions. Emotional support animals can provide
-          much-needed comfort for children dealing with stress or anxiety. Ask
-          your veterinarian for more information.
+      ),
+    },
+    {
+      icon: '🤗',
+      tag: 'Pet Therapy',
+      color: 'pink',
+      content: (
+        <p>
+          Pet therapy for children is a proven treatment that works for a
+          variety of conditions. Emotional support animals can provide comfort
+          for children dealing with stress or anxiety. Ask your vet for more
+          info.
         </p>
-      </section>
-
-      {/* Section 9: Recognizing Illnesses */}
-      <section className="space-y-4">
-        <h2 className="text-2xl font-semibold text-primary">
-          Recognizing Illnesses
-        </h2>
-        <p className="text-lg text-gray-600">
+      ),
+    },
+    {
+      icon: '🩺',
+      tag: 'Spotting Illness',
+      color: 'orange',
+      content: (
+        <p>
           Only a healthy pet is a happy companion. Regular care and attention to
-          any hint of ill health are crucial. Watch for signs such as abnormal
-          eating habits, lethargy, or changes in behavior, and consult your
-          veterinarian if needed.
+          any signs of illness are crucial. Watch for abnormal eating habits,
+          lethargy, or behavior changes—and contact your vet when needed.
         </p>
-      </section>
+      ),
+    },
+    {
+      icon: '🌈',
+      tag: 'Saying Goodbye',
+      color: 'gray',
+      content: (
+        <p>
+          Euthanasia is a difficult decision. If your pet is very sick or
+          suffering, sometimes the kindest choice is a peaceful passing. Discuss
+          options with your vet and loved ones.
+        </p>
+      ),
+    },
+  ]
 
-      {/* Section 10: Saying Goodbye */}
-      <section className="space-y-4">
-        <h2 className="text-2xl font-semibold text-primary">Saying Goodbye</h2>
-        <p className="text-lg text-gray-600">
-          Euthanasia can be a difficult decision. If your pet is extremely sick
-          or injured, sometimes the kindest thing to do is to help induce its
-          death quietly and humanely. Make this decision with your veterinarian
-          and loved ones, as it is not an easy choice to make.
-        </p>
-      </section>
+  return (
+    <div className="px-6 py-12 max-w-4xl mx-auto">
+      <h1 className="text-3xl font-bold mb-10 text-center">
+        Living With Your Pet
+      </h1>
+
+      <div className="relative">
+        {/* Timeline vertical line */}
+        <div className="absolute left-8 top-0 bottom-0 w-1 bg-gradient-to-b from-primary to-white rounded-full"></div>
+
+        {sections.map((section, index) => (
+          <div key={index} className="relative flex items-start mb-12 group">
+            {/* Icon */}
+            <div className="flex-shrink-0 w-16 h-16 bg-primary rounded-full flex items-center justify-center text-white text-xl font-bold z-10 shadow-lg border-4 border-white transition-transform duration-300 group-hover:scale-110">
+              {section.icon}
+            </div>
+
+            {/* Content */}
+            <div className="ml-8 flex-1">
+              <div className="bg-white rounded-xl shadow-lg border-l-4 border-primary p-8 hover:shadow-xl transition-all duration-300 hover:scale-[1.02]">
+                <span
+                  className={`text-sm font-medium text-${section.color}-700 bg-${section.color}-100 px-3 py-1 rounded-full inline-block`}
+                >
+                  {section.tag}
+                </span>
+                <div className="mt-4 text-gray-600 leading-relaxed text-[17px]">
+                  {section.content}
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
-  );
-};
+  )
+}
 
-export default LivingPet;
+export default LivingPet

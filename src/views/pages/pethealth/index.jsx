@@ -1,175 +1,105 @@
-import React, { useState } from "react";
+import React from 'react'
 
-const PetHealth = () => {
-  const [showContent, setShowContent] = useState(null);
-
-  const toggleContent = (index) => {
-    setShowContent(showContent === index ? null : index);
-  };
-
+const WhatExpect = () => {
   return (
-    <div className="container mx-auto p-6">
-      <h1 className="text-3xl font-bold mb-6">Pet Health</h1>
-      <div className="mt-12">
-        <img
-          src="./src/assets/MetavetImages/pet-health-banner-627231.501f6b3b3d276f8526ae.webp" // Replace this URL with your desired image URL
-          alt="Pet Health"
-          className="w-full rounded-lg shadow-lg mb-4"
-        />
-        <p className="text-lg text-gray-700">
-          Veterinary care is crucial and effective for a wide variety of
-          conditions. The following is a partial list of some of the most
-          common. If you do not see your pet's specific condition listed, we
-          encourage you to give us a call so we can personally address your
-          particular concerns.
-        </p>
+    <div className="px-6 py-8 max-w-4xl mx-auto">
+      <h1 className="text-3xl font-bold mb-6 text-center">What to Expect</h1>
 
-        <ul className="list-disc pl-6 mt-4 text-gray-600">
-          <li>Pet Health</li>
-          <li>Chronic Conditions</li>
-          <li>Digestive and Oral Health</li>
-          <li>Diseases and Viruses</li>
-          <li>Pests and Parasites</li>
-        </ul>
-      </div>
+      <div className="relative">
+        {/* Timeline vertical line */}
+        <div className="absolute left-8 top-0 bottom-0 w-1 bg-gradient-to-b from-primary to-white rounded-full"></div>
 
-      {/* Chronic Conditions */}
-      <div className="mb-8 mt-10">
-        <h2 className="text-xl font-semibold">Chronic Conditions</h2>
-
-        <div className="border-l-4 pl-4 py-2 mb-4">
-          <h3 className="font-medium">Arthritis</h3>
-          <p className="text-gray-600">
-            The most common type of arthritis is osteoarthritis, a degenerative
-            condition that affects joints.
-          </p>
-          <button
-            onClick={() => toggleContent(1)}
-            className="text-blue-500 text-sm mt-2"
-          >
-            {showContent === 1 ? "Hide" : "Read More"}
-          </button>
-          {showContent === 1 && (
-            <div className="mt-4">
-              <p>
-                Arthritis can be managed with medication, physical therapy, and
-                weight management. In some cases, surgery may be required.
+        {/* Timeline Item 1 */}
+        <div className="relative flex items-start mb-12">
+          <div className="flex-shrink-0 w-16 h-16 bg-primary rounded-full flex items-center justify-center text-white text-xl font-bold z-10 shadow-lg border-4 border-white">
+            🩺
+          </div>
+          <div className="ml-8 flex-1">
+            <div className="bg-white rounded-xl shadow-lg border-l-4 border-primary p-8 hover:shadow-xl transition-all duration-300 hover:scale-105">
+              <span className="text-sm font-medium text-rose-700 bg-rose-100 px-3 py-1 rounded-full">
+                Veterinary Conditions
+              </span>
+              <p className="mt-4 text-gray-600 leading-relaxed">
+                Veterinary care is crucial and effective for a wide variety of
+                conditions. The following is a partial list of some of the most
+                common. If you do not see your pet's specific condition listed,
+                we encourage you to give us a call so we can personally address
+                your particular concerns.
               </p>
+              <ul className="list-disc pl-6 mt-4 space-y-2 text-gray-600">
+                <li>Pet Health</li>
+                <li>Chronic Conditions</li>
+                <li>Digestive and Oral Health</li>
+                <li>Diseases and Viruses</li>
+                <li>Pests and Parasites</li>
+              </ul>
             </div>
-          )}
+          </div>
         </div>
 
-        {/* More Chronic Conditions (Leptospirosis, Seizures, etc.) */}
-        <div className="border-l-4 pl-4 py-2 mb-4">
-          <h3 className="font-medium">Leptospirosis</h3>
-          <p className="text-gray-600">
-            Leptospirosis is a life-threatening disease caused by bacteria,
-            transmitted through exposure to urine or contaminated water.
-          </p>
-          <button
-            onClick={() => toggleContent(2)}
-            className="text-blue-500 text-sm mt-2"
-          >
-            {showContent === 2 ? "Hide" : "Read More"}
-          </button>
-          {showContent === 2 && (
-            <div className="mt-4">
-              <p>
-                Leptospirosis can be treated with antibiotics if caught early.
-                Prevention includes vaccination and avoiding exposure to
-                contaminated areas.
+        {/* Timeline Item 2 */}
+        <div className="relative flex items-start mb-12">
+          <div className="flex-shrink-0 w-16 h-16 bg-primary rounded-full flex items-center justify-center text-white text-xl font-bold z-10 shadow-lg border-4 border-white">
+            💻
+          </div>
+          <div className="ml-8 flex-1">
+            <div className="bg-white rounded-xl shadow-lg border-l-4 border-primary p-8 hover:shadow-xl transition-all duration-300 hover:scale-105">
+              <span className="text-sm font-medium text-green-700 bg-green-100 px-3 py-1 rounded-full">
+                Telemedicine Benefits
+              </span>
+              <p className="mt-4 text-gray-600 leading-relaxed">
+                Using telemedicine for your pet allows you to consult with a
+                veterinarian from the comfort of your home. You can discuss
+                symptoms, ask questions, and receive care guidance. It’s ideal
+                for non-emergency situations, but your vet may suggest in-person
+                visits if necessary.
               </p>
             </div>
-          )}
+          </div>
         </div>
-      </div>
 
-      {/* Digestive and Oral Health */}
-      <div className="mb-8">
-        <h2 className="text-xl font-semibold">Digestive and Oral Health</h2>
-
-        <div className="border-l-4 pl-4 py-2 mb-4">
-          <h3 className="font-medium">Dentistry</h3>
-          <p className="text-gray-600">
-            Over 85% of pets suffer from periodontal disease. Regular dental
-            checkups are important to prevent this condition.
-          </p>
-          <button
-            onClick={() => toggleContent(3)}
-            className="text-blue-500 text-sm mt-2"
-          >
-            {showContent === 3 ? "Hide" : "Read More"}
-          </button>
-          {showContent === 3 && (
-            <div className="mt-4">
-              <p>
-                Brushing your pet’s teeth, providing dental chews, and having
-                regular dental cleanings can prevent periodontal disease.
+        {/* Timeline Item 3 */}
+        <div className="relative flex items-start mb-12">
+          <div className="flex-shrink-0 w-16 h-16 bg-primary rounded-full flex items-center justify-center text-white text-xl font-bold z-10 shadow-lg border-4 border-white">
+            🐶
+          </div>
+          <div className="ml-8 flex-1">
+            <div className="bg-white rounded-xl shadow-lg border-l-4 border-primary p-8 hover:shadow-xl transition-all duration-300 hover:scale-105">
+              <span className="text-sm font-medium text-yellow-800 bg-yellow-100 px-3 py-1 rounded-full">
+                Commitment to Care
+              </span>
+              <p className="mt-4 text-gray-600 leading-relaxed">
+                We believe you & your pet deserve high quality animal care from
+                anywhere. Our goal is to provide easier access to veterinary
+                care, grooming, training, nutrition, end-of-life services, and
+                more. Download the app to explore all services.
               </p>
             </div>
-          )}
+          </div>
         </div>
-      </div>
 
-      {/* Diseases and Viruses */}
-      <div className="mb-8">
-        <h2 className="text-xl font-semibold">Diseases and Viruses</h2>
-
-        <div className="border-l-4 pl-4 py-2 mb-4">
-          <h3 className="font-medium">Feline Leukemia Virus</h3>
-          <p className="text-gray-600">
-            Feline Leukemia (FeLV) weakens a cat’s immune system, making them
-            more susceptible to other diseases.
-          </p>
-          <button
-            onClick={() => toggleContent(4)}
-            className="text-blue-500 text-sm mt-2"
-          >
-            {showContent === 4 ? "Hide" : "Read More"}
-          </button>
-          {showContent === 4 && (
-            <div className="mt-4">
-              <p>
-                FeLV is transmitted through saliva, nasal secretions, and other
-                body fluids. There is no cure, but supportive care and
-                vaccination can help.
+        {/* Timeline Item 4 */}
+        <div className="relative flex items-start">
+          <div className="flex-shrink-0 w-16 h-16 bg-primary rounded-full flex items-center justify-center text-white text-xl font-bold z-10 shadow-lg border-4 border-white">
+            📅
+          </div>
+          <div className="ml-8 flex-1">
+            <div className="bg-white rounded-xl shadow-lg border-l-4 border-primary p-8 hover:shadow-xl transition-all duration-300 hover:scale-105">
+              <span className="text-sm font-medium text-blue-700 bg-blue-100 px-3 py-1 rounded-full">
+                Annual Check-ins
+              </span>
+              <p className="mt-4 text-gray-600 leading-relaxed">
+                Telemedicine doesn't replace physical exams. Plan for annual
+                visits for vaccines, parasite prevention, and wellness checks.
+                Metavet helps you connect quickly with the right professionals
+                for your pet’s needs.
               </p>
             </div>
-          )}
+          </div>
         </div>
       </div>
-
-      {/* Pests and Parasites */}
-      <div className="mb-8">
-        <h2 className="text-xl font-semibold">Pests and Parasites</h2>
-
-        <div className="border-l-4 pl-4 py-2 mb-4">
-          <h3 className="font-medium">Fleas</h3>
-          <p className="text-gray-600">
-            Fleas are a common parasite found on pets and can cause irritation,
-            allergies, and spread diseases.
-          </p>
-          <button
-            onClick={() => toggleContent(5)}
-            className="text-blue-500 text-sm mt-2"
-          >
-            {showContent === 5 ? "Hide" : "Read More"}
-          </button>
-          {showContent === 5 && (
-            <div className="mt-4">
-              <p>
-                Flea prevention includes using flea treatments, regularly
-                cleaning your home, and preventing your pet from frequenting
-                flea-infested areas.
-              </p>
-            </div>
-          )}
-        </div>
-      </div>
-
-      {/* Image and Text Section */}
     </div>
-  );
-};
+  )
+}
 
-export default PetHealth;
+export default WhatExpect

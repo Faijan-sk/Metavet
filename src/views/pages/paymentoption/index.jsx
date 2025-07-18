@@ -1,96 +1,123 @@
-import React from "react";
+import React from 'react'
 
 const PaymentOptions = () => {
   return (
-    <div className="container mx-auto px-6 py-16">
-      {/* Payment Options Title */}
-      <h2 className="text-2xl font-semibold text-center mb-8">
-        Payment Options
-      </h2>
+    <div className="px-6 py-8 max-w-4xl mx-auto">
+      <h2 className="text-3xl font-bold mb-6 text-center">Payment Options</h2>
 
-      {/* Payment Option List */}
-      <div className="space-y-6">
-        {/* 1. Payment Due Prior to Teleconsultations */}
-        <div className="bg-white p-6 rounded-lg shadow-lg">
-          <h3 className="font-semibold text-xl mb-4">
-            1. Payment Due Prior to Teleconsultations
-          </h3>
-          <p className="text-lg">
-            Payment is due prior to any teleconsultations & a hold will be
-            placed for the entire amount of the service being rendered for any
-            mobile services.
-          </p>
+      <div className="relative">
+        {/* Timeline vertical line */}
+        <div className="absolute left-8 top-0 bottom-0 w-1 bg-gradient-to-b from-primary to-white rounded-full"></div>
+
+        {/* Timeline Item 1 */}
+        <div className="relative flex items-start mb-12">
+          <div className="flex-shrink-0 w-16 h-16 bg-primary text-white rounded-full flex items-center justify-center text-xl font-bold z-10 shadow-lg border-4 border-white">
+            💳
+          </div>
+          <div className="ml-8 flex-1">
+            <div className="bg-white rounded-xl border-l-4 border-primary shadow-lg p-8 hover:shadow-xl transition-all duration-300 hover:scale-105">
+              <span className="text-sm font-medium text-red-700 bg-red-100 px-3 py-1 rounded-full">
+                1. Prepayment Required
+              </span>
+              <p className="mt-4 text-gray-600 text-lg leading-relaxed">
+                Payment is due prior to any teleconsultations & a hold will be placed
+                for the entire amount of the service being rendered for any mobile
+                services.
+              </p>
+            </div>
+          </div>
         </div>
 
-        {/* 2. Accepting Credit and Debit Cards */}
-        <div className="bg-white p-6 rounded-lg shadow-lg">
-          <h3 className="font-semibold text-xl mb-4">
-            2. We Accept All Major Credit & Debit Cards
-          </h3>
-          <p className="text-lg">
-            Please view your profile in the app to add payment cards.
-          </p>
+        {/* Timeline Item 2 */}
+        <div className="relative flex items-start mb-12">
+          <div className="flex-shrink-0 w-16 h-16 bg-primary text-white rounded-full flex items-center justify-center text-xl font-bold z-10 shadow-lg border-4 border-white">
+            🏦
+          </div>
+          <div className="ml-8 flex-1">
+            <div className="bg-white rounded-xl border-l-4 border-primary shadow-lg p-8 hover:shadow-xl transition-all duration-300 hover:scale-105">
+              <span className="text-sm font-medium text-green-700 bg-green-100 px-3 py-1 rounded-full">
+                2. Card Payments Accepted
+              </span>
+              <p className="mt-4 text-gray-600 text-lg leading-relaxed">
+                Please view your profile in the app to add payment cards.
+              </p>
+            </div>
+          </div>
         </div>
 
-        {/* 3. Pet Insurance Providers */}
-        <div className="bg-white p-6 rounded-lg shadow-lg">
-          <h3 className="font-semibold text-xl mb-4">
-            3. Pet Insurance Providers
-          </h3>
-          <p className="text-lg">
-            If you haven't yet gotten pet insurance, to learn more please visit
-            the following websites:
-          </p>
-          <ul className="list-disc pl-6 mt-4">
-            <li>
-              <a
-                href="https://www.trupanion.com"
-                className="text-blue-600 hover:underline"
-              >
-                www.trupanion.com
-              </a>
-            </li>
-            <li>
-              <a
-                href="https://www.fetchpet.com"
-                className="text-blue-600 hover:underline"
-              >
-                www.fetchpet.com
-              </a>
-            </li>
-            <li>
-              <a
-                href="https://www.petsecure.com"
-                className="text-blue-600 hover:underline"
-              >
-                www.petsecure.com
-              </a>
-            </li>
-            <li>
-              <a
-                href="https://www.spotpetinsurance.ca"
-                className="text-blue-600 hover:underline"
-              >
-                www.spotpetinsurance.ca
-              </a>
-            </li>
-          </ul>
+        {/* Timeline Item 3 */}
+        <div className="relative flex items-start mb-12">
+          <div className="flex-shrink-0 w-16 h-16 bg-primary text-white rounded-full flex items-center justify-center text-xl font-bold z-10 shadow-lg border-4 border-white">
+            🐕
+          </div>
+          <div className="ml-8 flex-1">
+            <div className="bg-white rounded-xl border-l-4 border-primary shadow-lg p-8 hover:shadow-xl transition-all duration-300 hover:scale-105">
+              <span className="text-sm font-medium text-purple-700 bg-purple-100 px-3 py-1 rounded-full">
+                3. Pet Insurance
+              </span>
+              <p className="mt-4 text-gray-600 text-lg leading-relaxed">
+                If you haven't yet gotten pet insurance, to learn more please visit the
+                following websites:
+              </p>
+              <ul className="list-disc pl-6 mt-4 space-y-1 text-blue-600">
+                <li>
+                  <a
+                    href="https://www.trupanion.com"
+                    className="hover:underline"
+                  >
+                    www.trupanion.com
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://www.fetchpet.com"
+                    className="hover:underline"
+                  >
+                    www.fetchpet.com
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://www.petsecure.com"
+                    className="hover:underline"
+                  >
+                    www.petsecure.com
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://www.spotpetinsurance.ca"
+                    className="hover:underline"
+                  >
+                    www.spotpetinsurance.ca
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
 
-        {/* 4. Affirm Payment & CareCredit */}
-        <div className="bg-white p-6 rounded-lg shadow-lg">
-          <h3 className="font-semibold text-xl mb-4">
-            4. Affirm Payment & CareCredit
-          </h3>
-          <p className="text-lg">
-            We have partnered with Affirm Payment & CareCredit. It takes a few
-            short minutes to complete an application and break down your
-            payments into installments.
-          </p>
+        {/* Timeline Item 4 */}
+        <div className="relative flex items-start">
+          <div className="flex-shrink-0 w-16 h-16 bg-primary text-white rounded-full flex items-center justify-center text-xl font-bold z-10 shadow-lg border-4 border-white">
+            🧾
+          </div>
+          <div className="ml-8 flex-1">
+            <div className="bg-white rounded-xl border-l-4 border-primary shadow-lg p-8 hover:shadow-xl transition-all duration-300 hover:scale-105">
+              <span className="text-sm font-medium text-yellow-700 bg-yellow-100 px-3 py-1 rounded-full">
+                4. Installment Options
+              </span>
+              <p className="mt-4 text-gray-600 text-lg leading-relaxed">
+                We have partnered with Affirm Payment & CareCredit. It takes a few short
+                minutes to complete an application and break down your payments into
+                installments.
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default PaymentOptions;
+export default PaymentOptions

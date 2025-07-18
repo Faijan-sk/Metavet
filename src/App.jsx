@@ -172,7 +172,7 @@ const App = () => {
               <Route
                 path="/todayveterinarian"
                 element={<TodaysVeterinarian />}
-              />
+              /> 
               <Route path="/newsletter" element={<NewsletterArchive />} />
               <Route path="/hospital" element={<HospitalTour />} />
               <Route path="/surgery" element={<Surgery />} />
