@@ -1,113 +1,117 @@
-import { useEffect, useState } from "react";
-import { ThemeProvider } from "./context/ThemeProvider";
-import Horizontal from "./@core/navigation/Horizontal";
+import { useEffect, useState } from 'react'
+import { ThemeProvider } from './context/ThemeProvider'
+import Horizontal from './@core/navigation/Horizontal'
 
-import LandPage from "./views/pages/land-page";
-import SearchNav from "./views/components/product/SearchNav";
-import ProductTable from "./views/components/product/ProductTable";
-import LinChart from "./views/components/product/LineChart";
+import LandPage from './views/pages/land-page'
+import SearchNav from './views/components/product/SearchNav'
+import ProductTable from './views/components/product/ProductTable'
+import LinChart from './views/components/product/LineChart'
 
-import React, { Suspense, lazy } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import React, { Suspense, lazy } from 'react'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
-import Layout from "./@core/layout";
-import SignIn from "./views/components/LoginPages/SignIn";
-import OtpPage from "./views/components/LoginPages/OtpPage";
-import CreateAccountPage from "./views/components/LoginPages/CreateAccountPage";
-import ForgotPassword from "./views/components/LoginPages/ForgetPassword";
-import NewPassword from "./views/components/LoginPages/NewPassword";
-import DoctorDashboard from "./views/components/maindoctordashboard/DoctorDasboard";
-import PatientList from "./views/components/maindoctordashboard/PatientList";
-import ReviewList from "./views/components/maindoctordashboard/Reviewlist";
-import AppointmentsLists from "./views/components/maindoctordashboard/AppointmentsLists";
-import Chatlist from "./views/components/maindoctordashboard/Chatlist";
-import DoctorProfile from "./views/components/maindoctordashboard/DoctorProfile";
+import Layout from './@core/layout'
+import SignIn from './views/components/LoginPages/SignIn'
+import OtpPage from './views/components/LoginPages/OtpPage'
+import CreateAccountPage from './views/components/LoginPages/CreateAccountPage'
+import ForgotPassword from './views/components/LoginPages/ForgetPassword'
+import NewPassword from './views/components/LoginPages/NewPassword'
+import DoctorDashboard from './views/components/maindoctordashboard/DoctorDasboard'
+import PatientList from './views/components/maindoctordashboard/PatientList'
+import ReviewList from './views/components/maindoctordashboard/Reviewlist'
+import AppointmentsLists from './views/components/maindoctordashboard/AppointmentsLists'
+import Chatlist from './views/components/maindoctordashboard/Chatlist'
+import DoctorProfile from './views/components/maindoctordashboard/DoctorProfile'
 
 // ** Pages
-const Dashboard = lazy(() => import("./views/pages/dashboard"));
-const Appointment = lazy(() => import("./views/pages/appointment"));
-const HealthRecord = lazy(() => import("./views/pages/health-record"));
-const MyPet = lazy(() => import("./views/pages/mypet"));
-const FindDoctor = lazy(() => import("./views/pages/finddoctor"));
-const ContactUs = lazy(() => import("./views/pages/contactus"));
-const BookAppointment = lazy(() => import("./views/pages/appointmentform"));
-const AddPet = lazy(() => import("./views/pages/addpet"));
-const Viewprofile = lazy(() => import("./views/pages/viewprofile"));
-const Teleconsultation = lazy(() => import("./views/pages/teleconsultation"));
-const TreatmentPlans = lazy(() => import("./views/pages/treatmentplans"));
-const Bloodwork = lazy(() => import("./views/pages/bloodwork"));
-const Grooming = lazy(() => import("./views/pages/grooming"));
-const KennelsBoarding = lazy(() => import("./views/pages/kennels/boarding"));
-const DogTraining = lazy(() => import("./views/pages/dogtraining"));
-const Dental = lazy(() => import("./views/pages/dental"));
-const Vaccines = lazy(() => import("./views/pages/vaccines"));
+const Dashboard = lazy(() => import('./views/pages/dashboard'))
+const Appointment = lazy(() => import('./views/pages/appointment'))
+const HealthRecord = lazy(() => import('./views/pages/health-record'))
+const MyPet = lazy(() => import('./views/pages/mypet'))
+const FindDoctor = lazy(() => import('./views/pages/finddoctor'))
+const ContactUs = lazy(() => import('./views/pages/contactus'))
+const BookAppointment = lazy(() => import('./views/pages/appointmentform'))
+const AddPet = lazy(() => import('./views/pages/addpet'))
+const Viewprofile = lazy(() => import('./views/pages/viewprofile'))
+const Teleconsultation = lazy(() => import('./views/pages/teleconsultation'))
+const TreatmentPlans = lazy(() => import('./views/pages/treatmentplans'))
+const Bloodwork = lazy(() => import('./views/pages/bloodwork'))
+const Grooming = lazy(() => import('./views/pages/grooming'))
+const BehaviouralConcern = lazy(() =>
+  import('./views/pages/behaviouralConcern')
+)
+const GroomerKyc = lazy(() => import('./views/pages/groomer-kyc'))
+const KennelsBoarding = lazy(() => import('./views/pages/kennels/boarding'))
+const DogTraining = lazy(() => import('./views/pages/dogtraining'))
+const Dental = lazy(() => import('./views/pages/dental'))
+const Vaccines = lazy(() => import('./views/pages/vaccines'))
 const ParasitePrevention = lazy(() =>
-  import("./views/pages/parasiteprevention")
-);
-const SpayingOrNeutering = lazy(() => import("./views/pages/spayingneutering"));
-const Nutrition = lazy(() => import("./views/pages/nutrition"));
-const Behavior = lazy(() => import("./views/pages/behaviour"));
-const OtherServices = lazy(() => import("./views/pages/otherservices"));
-const WhatExpect = lazy(() => import("./views/pages/whatexpect"));
-const PaymentOptions = lazy(() => import("./views/pages/paymentoption"));
-const PetWellnessProgram = lazy(() => import("./views/pages/petwellness"));
-const OurTeam = lazy(() => import("./views/pages/ourteam"));
-const AboutUs = lazy(() => import("./views/pages/aboutus"));
-const MeetTeam = lazy(() => import("./views/pages/meetteam"));
-const Blog = lazy(() => import("./views/pages/blogs"));
-const PetHealth = lazy(() => import("./views/pages/pethealth"));
-const ChoosingPet = lazy(() => import("./views/pages/choosingpet"));
-const LivingPet = lazy(() => import("./views/pages/livingpet"));
-const VideoNewsroom = lazy(() => import("./views/pages/videonewsroom"));
+  import('./views/pages/parasiteprevention')
+)
+const SpayingOrNeutering = lazy(() => import('./views/pages/spayingneutering'))
+const Nutrition = lazy(() => import('./views/pages/nutrition'))
+const Behavior = lazy(() => import('./views/pages/behaviour'))
+const OtherServices = lazy(() => import('./views/pages/otherservices'))
+const WhatExpect = lazy(() => import('./views/pages/whatexpect'))
+const PaymentOptions = lazy(() => import('./views/pages/paymentoption'))
+const PetWellnessProgram = lazy(() => import('./views/pages/petwellness'))
+const OurTeam = lazy(() => import('./views/pages/ourteam'))
+const AboutUs = lazy(() => import('./views/pages/aboutus'))
+const MeetTeam = lazy(() => import('./views/pages/meetteam'))
+const Blog = lazy(() => import('./views/pages/blogs'))
+const PetHealth = lazy(() => import('./views/pages/pethealth'))
+const ChoosingPet = lazy(() => import('./views/pages/choosingpet'))
+const LivingPet = lazy(() => import('./views/pages/livingpet'))
+const VideoNewsroom = lazy(() => import('./views/pages/videonewsroom'))
 const TodaysVeterinarian = lazy(() =>
-  import("./views/pages/todaysveterinarian")
-);
-const NewsletterArchive = lazy(() => import("./views/pages/newsletterarchive"));
-const HospitalTour = lazy(() => import("./views/pages/hospitaltour"));
-const Surgery = lazy(() => import("./views/pages/surgery"));
-const Radiology = lazy(() => import("./views/pages/radiology"));
-const FAQ = lazy(() => import("./views/pages/faq"));
-const OnlineStore = lazy(() => import("./views/pages/onlinestore"));
-const SearchProduct = lazy(() => import("./views/pages/searchproduct"));
-const MyAccount = lazy(() => import("./views/pages/myaccount"));
-const ShoppingBag = lazy(() => import("./views/pages/shoppingbag"));
-const Prescription = lazy(() => import("./views/pages/prescriptionrequired"));
-const CatProduct = lazy(() => import("./views/pages/catproduct"));
-const DogProduct = lazy(() => import("./views/pages/dogproduct"));
-const Frontline = lazy(() => import("./views/pages/frontlineplus"));
-const Cosequin = lazy(() => import("./views/pages/cosequin"));
-const HillScience = lazy(() => import("./views/pages/hillsciencediet"));
-const Rimadyl = lazy(() => import("./views/pages/rimadyl"));
-const SmallPetGlass = lazy(() => import("./views/pages/smallpetglass"));
-const MarketMedley = lazy(() => import("./views/pages/marketmedley"));
-const Oxbow = lazy(() => import("./views/pages/oxbow"));
-const FeathersTeaser = lazy(() => import("./views/pages/feathersteaser"));
-const Kong = lazy(() => import("./views/pages/kong"));
-const MilkBone = lazy(() => import("./views/pages/milkbone"));
-const HillScienceDog = lazy(() => import("./views/pages/hillsciencedog"));
-const ViewProfile2 = lazy(() => import("./views/pages/viewprofile2"));
-const ViewProfile3 = lazy(() => import("./views/pages/viewprofile3"));
-const ViewProfile4 = lazy(() => import("./views/pages/viewprofile4"));
-const ViewProfile5 = lazy(() => import("./views/pages/viewprofile5"));
-const ViewProfile6 = lazy(() => import("./views/pages/viewprofile6"));
-const ViewProfile7 = lazy(() => import("./views/pages/viewprofile7"));
-const ViewProfile8 = lazy(() => import("./views/pages/viewprofile8"));
+  import('./views/pages/todaysveterinarian')
+)
+const NewsletterArchive = lazy(() => import('./views/pages/newsletterarchive'))
+const HospitalTour = lazy(() => import('./views/pages/hospitaltour'))
+const Surgery = lazy(() => import('./views/pages/surgery'))
+const Radiology = lazy(() => import('./views/pages/radiology'))
+const FAQ = lazy(() => import('./views/pages/faq'))
+const OnlineStore = lazy(() => import('./views/pages/onlinestore'))
+const SearchProduct = lazy(() => import('./views/pages/searchproduct'))
+const MyAccount = lazy(() => import('./views/pages/myaccount'))
+const ShoppingBag = lazy(() => import('./views/pages/shoppingbag'))
+const Prescription = lazy(() => import('./views/pages/prescriptionrequired'))
+const CatProduct = lazy(() => import('./views/pages/catproduct'))
+const DogProduct = lazy(() => import('./views/pages/dogproduct'))
+const Frontline = lazy(() => import('./views/pages/frontlineplus'))
+const Cosequin = lazy(() => import('./views/pages/cosequin'))
+const HillScience = lazy(() => import('./views/pages/hillsciencediet'))
+const Rimadyl = lazy(() => import('./views/pages/rimadyl'))
+const SmallPetGlass = lazy(() => import('./views/pages/smallpetglass'))
+const MarketMedley = lazy(() => import('./views/pages/marketmedley'))
+const Oxbow = lazy(() => import('./views/pages/oxbow'))
+const FeathersTeaser = lazy(() => import('./views/pages/feathersteaser'))
+const Kong = lazy(() => import('./views/pages/kong'))
+const MilkBone = lazy(() => import('./views/pages/milkbone'))
+const HillScienceDog = lazy(() => import('./views/pages/hillsciencedog'))
+const ViewProfile2 = lazy(() => import('./views/pages/viewprofile2'))
+const ViewProfile3 = lazy(() => import('./views/pages/viewprofile3'))
+const ViewProfile4 = lazy(() => import('./views/pages/viewprofile4'))
+const ViewProfile5 = lazy(() => import('./views/pages/viewprofile5'))
+const ViewProfile6 = lazy(() => import('./views/pages/viewprofile6'))
+const ViewProfile7 = lazy(() => import('./views/pages/viewprofile7'))
+const ViewProfile8 = lazy(() => import('./views/pages/viewprofile8'))
 
 const App = () => {
-  const [themeMode, setThemeMode] = useState("light");
+  const [themeMode, setThemeMode] = useState('light')
 
   // ** Light Mode
   const lightTheme = () => {
-    setThemeMode("light");
-  };
+    setThemeMode('light')
+  }
   // ** Dark Mode
   const darkTheme = () => {
-    setThemeMode("dark");
-  };
+    setThemeMode('dark')
+  }
 
   useEffect(() => {
-    document.querySelector("html").setAttribute("data-theme", themeMode);
-  }, [themeMode]);
+    document.querySelector('html').setAttribute('data-theme', themeMode)
+  }, [themeMode])
 
   return (
     <ThemeProvider value={{ themeMode, darkTheme, lightTheme }}>
@@ -140,6 +144,7 @@ const App = () => {
               <Route path="/treatment-plans-rx" element={<TreatmentPlans />} />
               <Route path="/blood-work" element={<Bloodwork />} />
               <Route path="/grooming" element={<Grooming />} />
+              <Route path="/groomer-kyc" element={<GroomerKyc />} />
               <Route path="/kennels-boarding" element={<KennelsBoarding />} />
               <Route path="/dog-training" element={<DogTraining />} />
               <Route path="/dental" element={<Dental />} />
@@ -156,6 +161,10 @@ const App = () => {
               <Route path="/behaviour" element={<Behavior />} />
               <Route path="/other-services" element={<OtherServices />} />
               <Route path="/what-to-expect" element={<WhatExpect />} />
+              <Route
+                path="/behavioural-concern"
+                element={<BehaviouralConcern />}
+              />
               <Route path="/payment-options" element={<PaymentOptions />} />
               <Route
                 path="/pet-wellness-program"
@@ -172,7 +181,7 @@ const App = () => {
               <Route
                 path="/todayveterinarian"
                 element={<TodaysVeterinarian />}
-              /> 
+              />
               <Route path="/newsletter" element={<NewsletterArchive />} />
               <Route path="/hospital" element={<HospitalTour />} />
               <Route path="/surgery" element={<Surgery />} />
@@ -219,7 +228,7 @@ const App = () => {
         </Suspense>
       </BrowserRouter>
     </ThemeProvider>
-  );
-};
+  )
+}
 
-export default App;
+export default App

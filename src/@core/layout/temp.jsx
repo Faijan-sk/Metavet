@@ -14,6 +14,7 @@ const navItems = [
       { label: 'Treatment Plans/Rx', path: '/treatment-plans-rx' },
       { label: 'Blood Work', path: '/blood-work' },
       { label: 'Grooming', path: '/grooming' },
+      { label: 'Groomers to Client KYC', path: '/groomer-kyc' },
       { label: 'Kennels/Boarding', path: '/kennels-boarding' },
       { label: 'Training', path: '/dog-training' },
       { label: 'Dental', path: '/dental' },
@@ -41,6 +42,7 @@ const Header = () => {
       hasDropdown: true,
       dropdownItems: [
         { label: 'What to Expect', path: '/what-to-expect' },
+        { label: 'Behavioural Concern ', path: '/behavioural-concern' },
         { label: 'Payment Options', path: '/payment-options' },
       ],
     },
