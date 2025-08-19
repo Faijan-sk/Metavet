@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
-
+import { useDispatch } from 'react-redux'
+import { setUser } from './../../../../store/userSlice'
 import JwtService from './../../../../@core/auth/jwt/jwtService'
 
 const jwt = new JwtService()
 
 const index = ({ onSubmit, onSwitchToLogin, onClose }) => {
+  const dispatch = useDispatch() // ✅ Redux dispatch
   const [userType, setUserType] = useState(null)
 
   const {
@@ -57,6 +59,9 @@ const index = ({ onSubmit, onSwitchToLogin, onClose }) => {
 
       // 🔹 Call API using JwtService
       const response = await jwt.register(data)
+
+      // ✅ Save user info in Redux store
+      dispatch(setUser(response.data))
 
       console.log('✅ Signup success:', response.data)
 

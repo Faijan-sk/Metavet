@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useSelector } from 'react-redux'
 
 const OTPVerification = ({ onSubmit, onBack, userInfo, formType }) => {
   const [otp, setOtp] = useState(['', '', '', ''])
@@ -6,6 +7,7 @@ const OTPVerification = ({ onSubmit, onBack, userInfo, formType }) => {
   const [canResend, setCanResend] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState('')
+  const response = useSelector((state) => state.user.data)
 
   // Timer for resend OTP
   useEffect(() => {
@@ -181,8 +183,9 @@ const OTPVerification = ({ onSubmit, onBack, userInfo, formType }) => {
           We've sent a 4-digit verification code to
         </p>
         <p className="text-primary font-medium text-lg">
-          {formatPhoneNumber()}
+          {response.data.countryCode} {response.data.phoneNumber}
         </p>
+        <p>your otp is {response.data.otp}</p>
       </div>
 
       {/* OTP Input Form */}
