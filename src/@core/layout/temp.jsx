@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react'
 import { Link, NavLink } from 'react-router-dom'
-import { useForm } from 'react-hook-form'
+import LoginForm from './../../views/pages/forms/login'
+import SignupForm from './../../views/pages/forms/registerUser'
+import OTPVerification from './../../views/pages/forms/otpForm'
 
 const navItems = [
   { name: 'Find a Doctor', path: '/finddoctor', active: true },
   { name: 'Appointment', path: '/appointment', active: true },
   { name: 'Health Record', path: '/healthrecord', active: true },
-
   {
     name: 'Services',
     hasDropdown: true,
@@ -31,38 +32,12 @@ const navItems = [
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
-
   const [hoveredItem, setHoveredItem] = useState(null)
   const [openMobileDropdown, setOpenMobileDropdown] = useState(null)
   const [isMobile, setIsMobile] = useState(false)
-  const [userType, setUserType] = useState(null) // Changed to null initially
-  const [formType, setFormType] = useState('Login')
-  // React Hook Form setup
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-    setValue,
-    watch,
-  } = useForm({
-    defaultValues: {
-      firstName: 'Rohit',
-      lastName: 'Sonawane',
-      countryCode: '+1',
-      phoneNumber: '1144778855',
-      email: 'rohit@gmail.com',
-      userType: '', // Changed to empty string initially
-    },
-  })
-
-  // Watch userType changes
-  const watchedUserType = watch('userType')
-
-  useEffect(() => {
-    console.log(watchedUserType)
-    setUserType(watchedUserType)
-  }, [watchedUserType])
+  const [formType, setFormType] = useState('login')
+  const [currentStep, setCurrentStep] = useState('form')
+  const [userInfo, setUserInfo] = useState(null)
 
   const navItems2 = [
     ...(isMobile ? navItems : []),
@@ -136,21 +111,24 @@ const Header = () => {
     }
   }, [isMenuOpen, isMobile])
 
+  // Prevent body scroll when modal is open
+  useEffect(() => {
+    if (isModalOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = 'unset'
+    }
+
+    return () => {
+      document.body.style.overflow = 'unset'
+    }
+  }, [isModalOpen])
+
   const closeModal = () => {
     setIsModalOpen(false)
-    reset() // Reset form when modal closes
-    setUserType(null) // Reset userType state
-  }
-
-  const handleImageChange = (e) => {
-    const file = e.target.files[0]
-    if (file) {
-      const reader = new FileReader()
-      reader.onloadend = () => {
-        setProfileImage(reader.result)
-      }
-      reader.readAsDataURL(file)
-    }
+    setFormType('login')
+    setCurrentStep('form')
+    setUserInfo(null)
   }
 
   const handleDropdownHover = (index) => {
@@ -170,19 +148,87 @@ const Header = () => {
     setOpenMobileDropdown(null)
   }
 
-  // Handle form submission
-  const onSubmit = (data) => {
+  const handleFormSubmit = (data) => {
     console.log('Form Data:', data)
-    // Add your form submission logic here
-    console.log(data)
-    closeModal()
+    console.log('Form Type:', formType)
+
+    setUserInfo(data)
+    setCurrentStep('otp')
+
+    const phoneNumber = data.phoneNumber || data.mobileNumber
+    const countryCode = data.countryCode || '+91'
+    console.log(`Sending OTP to: ${countryCode} ${phoneNumber}`)
   }
 
-  // Handle user type button click
-  const handleUserTypeClick = (typeId) => {
-    setValue('userType', typeId)
-    setUserType(typeId)
+  const handleOtpVerification = (verificationData) => {
+    console.log('OTP Verification Complete:', verificationData)
+
+    if (formType === 'login') {
+      console.log('Login successful!')
+      localStorage.setItem('user', JSON.stringify(verificationData))
+      localStorage.setItem('isAuthenticated', 'true')
+    } else {
+      console.log('Registration successful!')
+      localStorage.setItem('user', JSON.stringify(verificationData))
+      localStorage.setItem('isAuthenticated', 'true')
+    }
+
+    closeModal()
+
+    alert(
+      `${
+        formType === 'login' ? 'Login' : 'Registration'
+      } successful! Welcome to Metavet.`
+    )
   }
+
+  const handleBackToForm = () => {
+    setCurrentStep('form')
+  }
+
+  const switchToSignup = () => {
+    setFormType('signup')
+    setCurrentStep('form')
+    setUserInfo(null)
+  }
+
+  const switchToLogin = () => {
+    setFormType('login')
+    setCurrentStep('form')
+    setUserInfo(null)
+  }
+
+  const getModalTitle = () => {
+    if (currentStep === 'otp') {
+      return 'Verify OTP'
+    }
+    return formType === 'login' ? 'Login' : 'Register'
+  }
+
+  // Get modal size based on form type
+  const getModalClasses = () => {
+    const isSignupForm = formType === 'signup' && currentStep === 'form'
+
+    if (isSignupForm) {
+      return {
+        container:
+          'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4',
+        modal:
+          'bg-white w-full max-w-lg mx-auto rounded-xl shadow-xl h-auto max-h-[95vh] flex flex-col',
+        content: 'flex-1 overflow-y-auto',
+      }
+    }
+
+    return {
+      container:
+        'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4',
+      modal:
+        'bg-white w-full max-w-md mx-auto rounded-lg shadow-xl max-h-[90vh] overflow-y-auto',
+      content: '',
+    }
+  }
+
+  const modalClasses = getModalClasses()
 
   return (
     <header className="sticky top-0 shadow-md py-2 sm:py-4 px-4 sm:px-6 lg:px-10 font-sans min-h-[60px] sm:min-h-[70px] tracking-wide relative z-50 bg-primary">
@@ -370,7 +416,6 @@ const Header = () => {
                         />
                       </svg>
                     </button>
-                    {/* Fixed dropdown section */}
                     <div
                       className={`transition-all duration-300 ease-in-out ${
                         openMobileDropdown === index
@@ -413,306 +458,66 @@ const Header = () => {
         </div>
       </div>
 
-      {/* Profile Modal with React Hook Form */}
+      {/* Enhanced Modal with Better Sizing for Signup Form */}
       {isModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white w-full max-w-md mx-auto rounded-lg shadow-xl max-h-[90vh] overflow-y-auto">
-            <div className="p-6">
-              <div className="flex items-center justify-between mb-6">
-                <h1 className="text-xl font-semibold text-gray-800">
-                  {formType === 'login' ? 'Login' : 'Register'}
-                </h1>
-
-                <button
-                  onClick={closeModal}
-                  className="p-2 rounded-md text-gray-400 hover:text-gray-600 hover:bg-gray-100"
+        <div className={modalClasses.container}>
+          <div className={modalClasses.modal}>
+            {/* Fixed Header */}
+            <div className="flex-shrink-0 flex items-center justify-between p-4 sm:p-6 border-b border-gray-200 bg-white rounded-t-xl">
+              <h1 className="text-xl font-semibold text-gray-800">
+                {getModalTitle()}
+              </h1>
+              <button
+                onClick={closeModal}
+                className="p-2 rounded-md text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors duration-200"
+              >
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
                 >
-                  <svg
-                    className="w-5 h-5"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M6 18L18 6M6 6l12 12"
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </button>
+            </div>
+
+            {/* Scrollable Content */}
+            <div
+              className={`${modalClasses.content || 'p-4 sm:p-6'} ${
+                formType === 'signup' && currentStep === 'form'
+                  ? 'overflow-y-auto flex-1'
+                  : ''
+              }`}
+            >
+              {currentStep === 'form' ? (
+                formType === 'login' ? (
+                  <LoginForm
+                    onSubmit={handleFormSubmit}
+                    onSwitchToSignup={switchToSignup}
+                    onClose={closeModal}
+                  />
+                ) : (
+                  <div className="space-y-4">
+                    <SignupForm
+                      onSubmit={handleFormSubmit}
+                      onSwitchToLogin={switchToLogin}
+                      onClose={closeModal}
                     />
-                  </svg>
-                </button>
-              </div>
-              {formType === 'login' ? (
-                <>
-                  <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                    {/* First Name */}
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Phone Number
-                      </label>
-                      <input
-                        type="text"
-                        {...register('mobileNumber', {
-                          required: 'Phone Number is Required',
-                        })}
-                        className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary ${
-                          errors.mobileNumber
-                            ? 'border-red-500'
-                            : 'border-gray-300'
-                        }`}
-                      />
-                      {errors.firstName && (
-                        <p className="text-red-500 text-xs mt-1">
-                          {errors.mobileNumber.message}
-                        </p>
-                      )}
-                    </div>
-
-                    <p className="text-center text-sm">
-                      {formType === 'login' ? (
-                        <>
-                          New to Metavet?{' '}
-                          <button
-                            type="button"
-                            onClick={() => setFormType('signup')}
-                            className="text-primary font-semibold"
-                          >
-                            Register
-                          </button>
-                        </>
-                      ) : (
-                        <>
-                          Already have an account?{' '}
-                          <button
-                            type="button"
-                            onClick={() => setFormType('login')}
-                            className="text-primary font-semibold"
-                          >
-                            Login
-                          </button>
-                        </>
-                      )}
-                    </p>
-                    {/* Submit */}
-                    <div className="flex justify-end space-x-3 pt-4">
-                      <button
-                        type="submit"
-                        className="w-full py-2 rounded-md bg-primary text-white focus:outline-none focus:ring-2 focus:ring-primary hover:bg-primary/90"
-                      >
-                        Login
-                      </button>
-                    </div>
-                  </form>
-                </>
+                  </div>
+                )
               ) : (
-                <>
-                  <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                    <div className="flex flex-col items-center mb-6 gap-2">
-                      {/* Hidden input to register userType with validation */}
-                      <input
-                        type="hidden"
-                        {...register('userType', {
-                          required: 'Please select the user type',
-                          validate: (value) =>
-                            (value !== '' &&
-                              value !== null &&
-                              value !== undefined) ||
-                            'Please select the user type',
-                        })}
-                        value={userType || ''}
-                      />
-
-                      <div className="flex justify-center gap-2 w-full">
-                        {[
-                          { id: 1, label: 'Client' },
-                          { id: 2, label: 'Doctor' },
-                          { id: 3, label: 'Groomer' },
-                        ].map((type) => (
-                          <button
-                            key={type.id}
-                            type="button"
-                            onClick={() => handleUserTypeClick(type.id)}
-                            className={`w-full py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-primary
-            ${
-              userType === type.id
-                ? 'bg-primary text-white'
-                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-            }
-          `}
-                          >
-                            {type.label}
-                          </button>
-                        ))}
-                      </div>
-
-                      {errors.userType && (
-                        <p className="text-red-500 text-xs mt-1">
-                          {errors.userType.message}
-                        </p>
-                      )}
-                    </div>
-
-                    {/* First Name */}
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        First Name
-                      </label>
-                      <input
-                        type="text"
-                        {...register('firstName', {
-                          required: 'First name is required',
-                        })}
-                        className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary ${
-                          errors.firstName
-                            ? 'border-red-500'
-                            : 'border-gray-300'
-                        }`}
-                      />
-                      {errors.firstName && (
-                        <p className="text-red-500 text-xs mt-1">
-                          {errors.firstName.message}
-                        </p>
-                      )}
-                    </div>
-
-                    {/* Last Name */}
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Last Name
-                      </label>
-                      <input
-                        type="text"
-                        {...register('lastName', {
-                          required: 'Last name is required',
-                        })}
-                        className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary ${
-                          errors.lastName ? 'border-red-500' : 'border-gray-300'
-                        }`}
-                      />
-                      {errors.lastName && (
-                        <p className="text-red-500 text-xs mt-1">
-                          {errors.lastName.message}
-                        </p>
-                      )}
-                    </div>
-
-                    {/* Phone Section */}
-                    <div className="col col-12">
-                      <div className="flex gap-4">
-                        {/* Country Code */}
-                        <div className="w-1/4">
-                          <label className="block text-sm font-medium text-gray-700 mb-1">
-                            Country Code
-                          </label>
-                          <select
-                            {...register('countryCode', {
-                              required: 'Country code is required',
-                            })}
-                            className={`w-full px-3 py-2 border rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-primary ${
-                              errors.countryCode
-                                ? 'border-red-500'
-                                : 'border-gray-300'
-                            }`}
-                          >
-                            <option value="+1">+1 (USA)</option>
-                          </select>
-                          {errors.countryCode && (
-                            <p className="text-red-500 text-xs mt-1">
-                              {errors.countryCode.message}
-                            </p>
-                          )}
-                        </div>
-
-                        {/* Phone Number */}
-                        <div className="w-3/4">
-                          <label className="block text-sm font-medium text-gray-700 mb-1">
-                            Phone Number
-                          </label>
-                          <input
-                            type="tel"
-                            {...register('phoneNumber', {
-                              required: 'Phone number is required',
-                              pattern: {
-                                value: /^[0-9]+$/,
-                                message: 'Please enter a valid phone number',
-                              },
-                            })}
-                            className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary ${
-                              errors.phoneNumber
-                                ? 'border-red-500'
-                                : 'border-gray-300'
-                            }`}
-                          />
-                          {errors.phoneNumber && (
-                            <p className="text-red-500 text-xs mt-1">
-                              {errors.phoneNumber.message}
-                            </p>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Email */}
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Email
-                      </label>
-                      <input
-                        type="email"
-                        {...register('email', {
-                          required: 'Email is required',
-                          pattern: {
-                            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                            message: 'Please enter a valid email address',
-                          },
-                        })}
-                        className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary ${
-                          errors.email ? 'border-red-500' : 'border-gray-300'
-                        }`}
-                      />
-                      {errors.email && (
-                        <p className="text-red-500 text-xs mt-1">
-                          {errors.email.message}
-                        </p>
-                      )}
-                    </div>
-
-                    <p className="text-center text-sm">
-                      {formType === 'login' ? (
-                        <>
-                          New to Metavet?{' '}
-                          <button
-                            type="button"
-                            onClick={() => setFormType('signup')}
-                            className="text-primary font-semibold"
-                          >
-                            Register
-                          </button>
-                        </>
-                      ) : (
-                        <>
-                          Already have an account?{' '}
-                          <button
-                            type="button"
-                            onClick={() => setFormType('login')}
-                            className="text-primary font-semibold"
-                          >
-                            Login
-                          </button>
-                        </>
-                      )}
-                    </p>
-                    {/* Submit */}
-                    <div className="flex justify-end space-x-3 pt-4">
-                      <button
-                        type="submit"
-                        className="w-full py-2 rounded-md bg-primary text-white focus:outline-none focus:ring-2 focus:ring-primary hover:bg-primary/90"
-                      >
-                        SignIn
-                      </button>
-                    </div>
-                  </form>
-                </>
+                <OTPVerification
+                  onSubmit={handleOtpVerification}
+                  onBack={handleBackToForm}
+                  userInfo={userInfo}
+                  formType={formType}
+                />
               )}
             </div>
           </div>

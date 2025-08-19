@@ -1,0 +1,148 @@
+import { useForm } from 'react-hook-form'
+
+const index = ({ onSubmit, onSwitchToSignup, onClose }) => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      mobileNumber: '1234567890',
+    },
+  })
+
+  return (
+    <div className="bg-white rounded-xl shadow-lg border border-gray-100 p-8 max-w-md mx-auto">
+      {/* Header */}
+      <div className="text-center mb-8">
+        <h2 className="text-2xl font-bold text-gray-900 mb-2">Welcome Back</h2>
+        <p className="text-gray-600 text-sm">Sign in to your Metavet account</p>
+      </div>
+
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+        {/* Phone Number Field */}
+        <div className="space-y-2">
+          <label className="block text-sm font-semibold text-gray-800 mb-2">
+            Phone Number
+          </label>
+          <div className="relative">
+            <input
+              type="text"
+              {...register('mobileNumber', {
+                required: 'Phone Number is Required',
+                pattern: {
+                  value: /^[0-9]{10}$/,
+                  message: 'Please enter a valid 10-digit phone number',
+                },
+              })}
+              className={`w-full px-4 py-3 border-2 rounded-lg focus:outline-none focus:ring-0 transition-all duration-200 bg-gray-50 focus:bg-white ${
+                errors.mobileNumber
+                  ? 'border-red-400 focus:border-red-500'
+                  : 'border-gray-200 focus:border-primary hover:border-gray-300'
+              }`}
+              placeholder="Enter your 10-digit phone number"
+            />
+            {errors.mobileNumber && (
+              <div className="absolute inset-y-0 right-0 flex items-center pr-3">
+                <svg
+                  className="h-5 w-5 text-red-500"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </div>
+            )}
+          </div>
+          {errors.mobileNumber && (
+            <p className="text-red-500 text-sm flex items-center mt-1">
+              <svg
+                className="w-4 h-4 mr-1"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                  clipRule="evenodd"
+                />
+              </svg>
+              {errors.mobileNumber.message}
+            </p>
+          )}
+        </div>
+
+        {/* Submit Button */}
+        <button
+          type="submit"
+          className="w-full py-3 px-4 rounded-lg bg-primary text-white font-semibold focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 hover:bg-primary/90 transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
+        >
+          <span className="flex items-center justify-center">
+            <svg
+              className="w-5 h-5 mr-2"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+              />
+            </svg>
+            Send OTP
+          </span>
+        </button>
+
+        {/* Divider */}
+        <div className="relative my-6">
+          <div className="absolute inset-0 flex items-center">
+            <div className="w-full border-t border-gray-200"></div>
+          </div>
+          <div className="relative flex justify-center text-sm">
+            <span className="px-4 bg-white text-gray-500">New to Metavet?</span>
+          </div>
+        </div>
+
+        {/* Switch to Signup */}
+        <div className="text-center">
+          <button
+            type="button"
+            onClick={onSwitchToSignup}
+            className="inline-flex items-center text-primary font-semibold hover:text-primary/80 transition-colors duration-200 hover:underline decoration-2 underline-offset-2"
+          >
+            <svg
+              className="w-4 h-4 mr-1"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"
+              />
+            </svg>
+            Create new account
+          </button>
+        </div>
+      </form>
+
+      {/* Footer */}
+      <div className="mt-8 pt-6 border-t border-gray-100">
+        <p className="text-center text-xs text-gray-500">
+          By continuing, you agree to Metavet's Terms of Service and Privacy
+          Policy
+        </p>
+      </div>
+    </div>
+  )
+}
+
+export default index
