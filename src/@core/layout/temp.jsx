@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react'
 import { Link, NavLink } from 'react-router-dom'
+import { useForm } from 'react-hook-form'
 
 const navItems = [
   { name: 'Find a Doctor', path: '/finddoctor', active: true },
   { name: 'Appointment', path: '/appointment', active: true },
   { name: 'Health Record', path: '/healthrecord', active: true },
-  { name: 'Online Store', path: '/store' },
+
   {
     name: 'Services',
     hasDropdown: true,
@@ -30,10 +31,38 @@ const navItems = [
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const [profileImage, setProfileImage] = useState(null)
+
   const [hoveredItem, setHoveredItem] = useState(null)
   const [openMobileDropdown, setOpenMobileDropdown] = useState(null)
   const [isMobile, setIsMobile] = useState(false)
+  const [userType, setUserType] = useState(null) // Changed to null initially
+  const [formType, setFormType] = useState('Login')
+  // React Hook Form setup
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+    setValue,
+    watch,
+  } = useForm({
+    defaultValues: {
+      firstName: 'Rohit',
+      lastName: 'Sonawane',
+      countryCode: '+1',
+      phoneNumber: '1144778855',
+      email: 'rohit@gmail.com',
+      userType: '', // Changed to empty string initially
+    },
+  })
+
+  // Watch userType changes
+  const watchedUserType = watch('userType')
+
+  useEffect(() => {
+    console.log(watchedUserType)
+    setUserType(watchedUserType)
+  }, [watchedUserType])
 
   const navItems2 = [
     ...(isMobile ? navItems : []),
@@ -107,7 +136,11 @@ const Header = () => {
     }
   }, [isMenuOpen, isMobile])
 
-  const closeModal = () => setIsModalOpen(false)
+  const closeModal = () => {
+    setIsModalOpen(false)
+    reset() // Reset form when modal closes
+    setUserType(null) // Reset userType state
+  }
 
   const handleImageChange = (e) => {
     const file = e.target.files[0]
@@ -135,6 +168,20 @@ const Header = () => {
   const closeMenu = () => {
     setIsMenuOpen(false)
     setOpenMobileDropdown(null)
+  }
+
+  // Handle form submission
+  const onSubmit = (data) => {
+    console.log('Form Data:', data)
+    // Add your form submission logic here
+    console.log(data)
+    closeModal()
+  }
+
+  // Handle user type button click
+  const handleUserTypeClick = (typeId) => {
+    setValue('userType', typeId)
+    setUserType(typeId)
   }
 
   return (
@@ -226,7 +273,7 @@ const Header = () => {
                 clipRule="evenodd"
               />
             </svg>
-            Profile
+            SignUp
           </button>
 
           <button
@@ -362,40 +409,20 @@ const Header = () => {
                 )}
               </div>
             ))}
-
-            <button
-              onClick={() => {
-                setIsModalOpen(true)
-                closeMenu()
-              }}
-              className="flex items-center w-full px-3 py-3 mt-4 text-white bg-primary rounded-md hover:bg-opacity-90 transition-colors duration-200"
-            >
-              <svg
-                className="w-5 h-5 mr-2"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                  clipRule="evenodd"
-                />
-              </svg>
-              Profile
-            </button>
           </nav>
         </div>
       </div>
 
-      {/* Profile Modal remains unchanged */}
+      {/* Profile Modal with React Hook Form */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white w-full max-w-md mx-auto rounded-lg shadow-xl max-h-[90vh] overflow-y-auto">
             <div className="p-6">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl font-semibold text-gray-800">
-                  Edit Profile
-                </h2>
+                <h1 className="text-xl font-semibold text-gray-800">
+                  {formType === 'login' ? 'Login' : 'Register'}
+                </h1>
+
                 <button
                   onClick={closeModal}
                   className="p-2 rounded-md text-gray-400 hover:text-gray-600 hover:bg-gray-100"
@@ -415,96 +442,278 @@ const Header = () => {
                   </svg>
                 </button>
               </div>
-
-              <div className="flex justify-center mb-6">
-                <div className="relative">
-                  {profileImage ? (
-                    <img
-                      src={profileImage}
-                      alt="Profile"
-                      className="w-20 h-20 rounded-full object-cover border-4 border-blue-500"
-                    />
-                  ) : (
-                    <div className="w-20 h-20 rounded-full bg-gray-200 border-4 border-blue-500 flex items-center justify-center">
-                      <svg
-                        className="w-10 h-10 text-gray-400"
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
+              {formType === 'login' ? (
+                <>
+                  <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+                    {/* First Name */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Phone Number
+                      </label>
+                      <input
+                        type="text"
+                        {...register('mobileNumber', {
+                          required: 'Phone Number is Required',
+                        })}
+                        className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary ${
+                          errors.mobileNumber
+                            ? 'border-red-500'
+                            : 'border-gray-300'
+                        }`}
+                      />
+                      {errors.firstName && (
+                        <p className="text-red-500 text-xs mt-1">
+                          {errors.mobileNumber.message}
+                        </p>
+                      )}
                     </div>
-                  )}
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleImageChange}
-                    className="absolute inset-0 opacity-0 cursor-pointer"
-                  />
-                </div>
-              </div>
 
-              <form className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Name
-                  </label>
-                  <input
-                    type="text"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    required
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Phone Number
-                  </label>
-                  <input
-                    type="tel"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    required
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    required
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Password
-                  </label>
-                  <input
-                    type="password"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    required
-                  />
-                </div>
-                <div className="flex justify-end space-x-3 pt-4">
-                  <button
-                    type="button"
-                    onClick={closeModal}
-                    className="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="submit"
-                    className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
-                  >
-                    Save
-                  </button>
-                </div>
-              </form>
+                    <p className="text-center text-sm">
+                      {formType === 'login' ? (
+                        <>
+                          New to Metavet?{' '}
+                          <button
+                            type="button"
+                            onClick={() => setFormType('signup')}
+                            className="text-primary font-semibold"
+                          >
+                            Register
+                          </button>
+                        </>
+                      ) : (
+                        <>
+                          Already have an account?{' '}
+                          <button
+                            type="button"
+                            onClick={() => setFormType('login')}
+                            className="text-primary font-semibold"
+                          >
+                            Login
+                          </button>
+                        </>
+                      )}
+                    </p>
+                    {/* Submit */}
+                    <div className="flex justify-end space-x-3 pt-4">
+                      <button
+                        type="submit"
+                        className="w-full py-2 rounded-md bg-primary text-white focus:outline-none focus:ring-2 focus:ring-primary hover:bg-primary/90"
+                      >
+                        Login
+                      </button>
+                    </div>
+                  </form>
+                </>
+              ) : (
+                <>
+                  <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+                    <div className="flex flex-col items-center mb-6 gap-2">
+                      {/* Hidden input to register userType with validation */}
+                      <input
+                        type="hidden"
+                        {...register('userType', {
+                          required: 'Please select the user type',
+                          validate: (value) =>
+                            (value !== '' &&
+                              value !== null &&
+                              value !== undefined) ||
+                            'Please select the user type',
+                        })}
+                        value={userType || ''}
+                      />
+
+                      <div className="flex justify-center gap-2 w-full">
+                        {[
+                          { id: 1, label: 'Client' },
+                          { id: 2, label: 'Doctor' },
+                          { id: 3, label: 'Groomer' },
+                        ].map((type) => (
+                          <button
+                            key={type.id}
+                            type="button"
+                            onClick={() => handleUserTypeClick(type.id)}
+                            className={`w-full py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-primary
+            ${
+              userType === type.id
+                ? 'bg-primary text-white'
+                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+            }
+          `}
+                          >
+                            {type.label}
+                          </button>
+                        ))}
+                      </div>
+
+                      {errors.userType && (
+                        <p className="text-red-500 text-xs mt-1">
+                          {errors.userType.message}
+                        </p>
+                      )}
+                    </div>
+
+                    {/* First Name */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        First Name
+                      </label>
+                      <input
+                        type="text"
+                        {...register('firstName', {
+                          required: 'First name is required',
+                        })}
+                        className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary ${
+                          errors.firstName
+                            ? 'border-red-500'
+                            : 'border-gray-300'
+                        }`}
+                      />
+                      {errors.firstName && (
+                        <p className="text-red-500 text-xs mt-1">
+                          {errors.firstName.message}
+                        </p>
+                      )}
+                    </div>
+
+                    {/* Last Name */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Last Name
+                      </label>
+                      <input
+                        type="text"
+                        {...register('lastName', {
+                          required: 'Last name is required',
+                        })}
+                        className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary ${
+                          errors.lastName ? 'border-red-500' : 'border-gray-300'
+                        }`}
+                      />
+                      {errors.lastName && (
+                        <p className="text-red-500 text-xs mt-1">
+                          {errors.lastName.message}
+                        </p>
+                      )}
+                    </div>
+
+                    {/* Phone Section */}
+                    <div className="col col-12">
+                      <div className="flex gap-4">
+                        {/* Country Code */}
+                        <div className="w-1/4">
+                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Country Code
+                          </label>
+                          <select
+                            {...register('countryCode', {
+                              required: 'Country code is required',
+                            })}
+                            className={`w-full px-3 py-2 border rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-primary ${
+                              errors.countryCode
+                                ? 'border-red-500'
+                                : 'border-gray-300'
+                            }`}
+                          >
+                            <option value="+1">+1 (USA)</option>
+                          </select>
+                          {errors.countryCode && (
+                            <p className="text-red-500 text-xs mt-1">
+                              {errors.countryCode.message}
+                            </p>
+                          )}
+                        </div>
+
+                        {/* Phone Number */}
+                        <div className="w-3/4">
+                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Phone Number
+                          </label>
+                          <input
+                            type="tel"
+                            {...register('phoneNumber', {
+                              required: 'Phone number is required',
+                              pattern: {
+                                value: /^[0-9]+$/,
+                                message: 'Please enter a valid phone number',
+                              },
+                            })}
+                            className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary ${
+                              errors.phoneNumber
+                                ? 'border-red-500'
+                                : 'border-gray-300'
+                            }`}
+                          />
+                          {errors.phoneNumber && (
+                            <p className="text-red-500 text-xs mt-1">
+                              {errors.phoneNumber.message}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Email */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Email
+                      </label>
+                      <input
+                        type="email"
+                        {...register('email', {
+                          required: 'Email is required',
+                          pattern: {
+                            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                            message: 'Please enter a valid email address',
+                          },
+                        })}
+                        className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary ${
+                          errors.email ? 'border-red-500' : 'border-gray-300'
+                        }`}
+                      />
+                      {errors.email && (
+                        <p className="text-red-500 text-xs mt-1">
+                          {errors.email.message}
+                        </p>
+                      )}
+                    </div>
+
+                    <p className="text-center text-sm">
+                      {formType === 'login' ? (
+                        <>
+                          New to Metavet?{' '}
+                          <button
+                            type="button"
+                            onClick={() => setFormType('signup')}
+                            className="text-primary font-semibold"
+                          >
+                            Register
+                          </button>
+                        </>
+                      ) : (
+                        <>
+                          Already have an account?{' '}
+                          <button
+                            type="button"
+                            onClick={() => setFormType('login')}
+                            className="text-primary font-semibold"
+                          >
+                            Login
+                          </button>
+                        </>
+                      )}
+                    </p>
+                    {/* Submit */}
+                    <div className="flex justify-end space-x-3 pt-4">
+                      <button
+                        type="submit"
+                        className="w-full py-2 rounded-md bg-primary text-white focus:outline-none focus:ring-2 focus:ring-primary hover:bg-primary/90"
+                      >
+                        SignIn
+                      </button>
+                    </div>
+                  </form>
+                </>
+              )}
             </div>
           </div>
         </div>
