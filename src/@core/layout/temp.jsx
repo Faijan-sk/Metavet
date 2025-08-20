@@ -302,6 +302,7 @@ const Header = () => {
         </nav>
 
         <div className="flex items-center space-x-3">
+          {/* Desktop SignUp Button */}
           <button
             onClick={() => setIsModalOpen(true)}
             className={`${
@@ -455,6 +456,20 @@ const Header = () => {
               </div>
             ))}
           </nav>
+
+          {/* ✅ Mobile SignUp Button */}
+          <div className="p-4 border-t border-gray-200">
+            <button
+  onClick={() => {
+    setIsModalOpen(true)
+    closeMenu()
+  }}
+  className="w-full flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-primary rounded-md hover:bg-primary/80 transition-colors duration-200"
+>
+  Sign Up
+</button>
+
+          </div>
         </div>
       </div>
 

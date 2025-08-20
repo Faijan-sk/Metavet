@@ -1,15 +1,59 @@
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import JwtService from './../../../../@core/auth/jwt/jwtService'
+import { useDispatch } from 'react-redux'
+import { setUser } from './../../../../store/userSlice'
 
-const index = ({ onSubmit, onSwitchToSignup, onClose }) => {
+const jwt = new JwtService()
+
+const LoginForm = ({ onSubmit, onSwitchToSignup }) => {
+  const dispatch = useDispatch()
+  const [errorMsg, setErrorMsg] = useState('')
+  
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
+    reset,
   } = useForm({
     defaultValues: {
-      mobileNumber: '1234567890',
+      phone_number: '1234567890',
     },
   })
+
+  // ✅ Updated submit handler - same pattern as register form
+  const handleFormSubmit = async (data) => {
+    try {
+      console.log('📤 Sending login data to backend:', data)
+      setErrorMsg('') // Clear previous errors
+
+      // 🔹 Call Login API using JwtService
+      const response = await jwt.login(data)
+
+      // ✅ Save user info in Redux store
+      dispatch(setUser(response))
+
+      console.log('✅ Login success:', response.data)
+
+      // 🔹 If backend returns tokens, store them in localStorage
+      if (response.data?.accessToken) {
+        jwt.setToken(response.data.accessToken)
+        jwt.setRefreshToken(response.data.refreshToken)
+      }
+
+      // ✅ Trigger parent callback to redirect to OTP page
+      if (onSubmit) {
+        onSubmit(response.data)
+      }
+
+      // Reset form after successful API call
+      reset()
+      
+    } catch (error) {
+      console.error('❌ Login failed:', error.response?.data || error.message)
+      setErrorMsg(error.response?.data?.message || 'Login failed. Please try again.')
+    }
+  }
 
   return (
     <div className="bg-white rounded-xl shadow-lg border border-gray-100 p-8 max-w-md mx-auto">
@@ -19,7 +63,8 @@ const index = ({ onSubmit, onSwitchToSignup, onClose }) => {
         <p className="text-gray-600 text-sm">Sign in to your Metavet account</p>
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+      {/* ✅ Hook up API integration with handleSubmit - same as register form */}
+      <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-6">
         {/* Phone Number Field */}
         <div className="space-y-2">
           <label className="block text-sm font-semibold text-gray-800 mb-2">
@@ -28,21 +73,21 @@ const index = ({ onSubmit, onSwitchToSignup, onClose }) => {
           <div className="relative">
             <input
               type="text"
-              {...register('mobileNumber', {
-                required: 'Phone Number is Required',
+              {...register('phone_number', {
+                required: 'Phone Number is required',
                 pattern: {
                   value: /^[0-9]{10}$/,
                   message: 'Please enter a valid 10-digit phone number',
                 },
               })}
               className={`w-full px-4 py-3 border-2 rounded-lg focus:outline-none focus:ring-0 transition-all duration-200 bg-gray-50 focus:bg-white ${
-                errors.mobileNumber
+                errors.phone_number
                   ? 'border-red-400 focus:border-red-500'
                   : 'border-gray-200 focus:border-primary hover:border-gray-300'
               }`}
               placeholder="Enter your 10-digit phone number"
             />
-            {errors.mobileNumber && (
+            {errors.phone_number && (
               <div className="absolute inset-y-0 right-0 flex items-center pr-3">
                 <svg
                   className="h-5 w-5 text-red-500"
@@ -58,7 +103,7 @@ const index = ({ onSubmit, onSwitchToSignup, onClose }) => {
               </div>
             )}
           </div>
-          {errors.mobileNumber && (
+          {errors.phone_number && (
             <p className="text-red-500 text-sm flex items-center mt-1">
               <svg
                 className="w-4 h-4 mr-1"
@@ -71,15 +116,21 @@ const index = ({ onSubmit, onSwitchToSignup, onClose }) => {
                   clipRule="evenodd"
                 />
               </svg>
-              {errors.mobileNumber.message}
+              {errors.phone_number.message}
             </p>
           )}
         </div>
 
+        {/* ✅ Error Message Display - same as register form */}
+        {errorMsg && (
+          <p className="text-red-500 text-sm text-center">{errorMsg}</p>
+        )}
+
         {/* Submit Button */}
         <button
           type="submit"
-          className="w-full py-3 px-4 rounded-lg bg-primary text-white font-semibold focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 hover:bg-primary/90 transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
+          disabled={isSubmitting}
+          className="w-full py-3 px-4 rounded-lg bg-primary text-white font-semibold focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 hover:bg-primary/90 transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 disabled:opacity-70"
         >
           <span className="flex items-center justify-center">
             <svg
@@ -95,7 +146,7 @@ const index = ({ onSubmit, onSwitchToSignup, onClose }) => {
                 d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
               />
             </svg>
-            Send OTP
+            {isSubmitting ? 'Sending...' : 'Send OTP'}
           </span>
         </button>
 
@@ -137,7 +188,7 @@ const index = ({ onSubmit, onSwitchToSignup, onClose }) => {
       {/* Footer */}
       <div className="mt-8 pt-6 border-t border-gray-100">
         <p className="text-center text-xs text-gray-500">
-          By continuing, you agree to Metavet's Terms of Service and Privacy
+          By continuing, you agree to Metavet&apos;s Terms of Service and Privacy
           Policy
         </p>
       </div>
@@ -145,4 +196,4 @@ const index = ({ onSubmit, onSwitchToSignup, onClose }) => {
   )
 }
 
-export default index
+export default LoginForm

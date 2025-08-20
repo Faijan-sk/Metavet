@@ -9,6 +9,7 @@ const jwt = new JwtService()
 const index = ({ onSubmit, onSwitchToLogin, onClose }) => {
   const dispatch = useDispatch() // ✅ Redux dispatch
   const [userType, setUserType] = useState(null)
+  const [errorMsg, setErrorMsg] = useState('')
 
   const {
     register,
@@ -60,6 +61,7 @@ const index = ({ onSubmit, onSwitchToLogin, onClose }) => {
       // 🔹 Call API using JwtService
       const response = await jwt.register(data)
 
+      
       // ✅ Save user info in Redux store
       dispatch(setUser(response.data))
 
@@ -74,10 +76,11 @@ const index = ({ onSubmit, onSwitchToLogin, onClose }) => {
       // 🔹 Trigger parent callback if provided
       if (onSubmit) onSubmit(response.data)
 
-      alert('🎉 Account created successfully!')
+      
     } catch (error) {
       console.error('❌ Signup failed:', error.response?.data || error.message)
-      alert('Signup failed. Please try again.')
+      setErrorMsg( error.response?.data.message);
+    
     }
   }
 
@@ -312,19 +315,18 @@ const index = ({ onSubmit, onSwitchToLogin, onClose }) => {
             <p className="text-red-500 text-sm">{errors.email.message}</p>
           )}
         </div>
-
-        {/* Submit Button */}
+<p className="text-red-500 text-sm text-center">{errorMsg}</p>        {/* Submit Button */}
         <button
           type="submit"
           className="w-full py-3 px-4 rounded-lg bg-primary text-white font-semibold hover:bg-primary/90 transition-all duration-200"
         >
-          Create Account
+          Send OTP
         </button>
       </form>
 
       {/* Footer */}
       <div className="mt-8 pt-6 border-t border-gray-100 text-center">
-        <p className="text-xs text-gray-500">
+        <p className="tex t-xs text-gray-500">
           Already have an account?{' '}
           <button
             type="button"
