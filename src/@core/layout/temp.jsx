@@ -1,8 +1,5 @@
 import { useState, useEffect } from 'react'
 import { Link, NavLink } from 'react-router-dom'
-import LoginForm from './../../views/pages/forms/login'
-import SignupForm from './../../views/pages/forms/registerUser'
-import OTPVerification from './../../views/pages/forms/otpForm'
 
 const navItems = [
   { name: 'Find a Doctor', path: '/finddoctor', active: true },
@@ -31,13 +28,9 @@ const navItems = [
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [isModalOpen, setIsModalOpen] = useState(false)
   const [hoveredItem, setHoveredItem] = useState(null)
   const [openMobileDropdown, setOpenMobileDropdown] = useState(null)
   const [isMobile, setIsMobile] = useState(false)
-  const [formType, setFormType] = useState('login')
-  const [currentStep, setCurrentStep] = useState('form')
-  const [userInfo, setUserInfo] = useState(null)
 
   const navItems2 = [
     ...(isMobile ? navItems : []),
@@ -111,26 +104,6 @@ const Header = () => {
     }
   }, [isMenuOpen, isMobile])
 
-  // Prevent body scroll when modal is open
-  useEffect(() => {
-    if (isModalOpen) {
-      document.body.style.overflow = 'hidden'
-    } else {
-      document.body.style.overflow = 'unset'
-    }
-
-    return () => {
-      document.body.style.overflow = 'unset'
-    }
-  }, [isModalOpen])
-
-  const closeModal = () => {
-    setIsModalOpen(false)
-    setFormType('login')
-    setCurrentStep('form')
-    setUserInfo(null)
-  }
-
   const handleDropdownHover = (index) => {
     if (!isMobile) setHoveredItem(index)
   }
@@ -147,88 +120,6 @@ const Header = () => {
     setIsMenuOpen(false)
     setOpenMobileDropdown(null)
   }
-
-  const handleFormSubmit = (data) => {
-    console.log('Form Data:', data)
-    console.log('Form Type:', formType)
-
-    setUserInfo(data)
-    setCurrentStep('otp')
-
-    const phoneNumber = data.phoneNumber || data.mobileNumber
-    const countryCode = data.countryCode || '+91'
-    console.log(`Sending OTP to: ${countryCode} ${phoneNumber}`)
-  }
-
-  const handleOtpVerification = (verificationData) => {
-    console.log('OTP Verification Complete:', verificationData)
-
-    if (formType === 'login') {
-      console.log('Login successful!')
-      localStorage.setItem('user', JSON.stringify(verificationData))
-      localStorage.setItem('isAuthenticated', 'true')
-    } else {
-      console.log('Registration successful!')
-      localStorage.setItem('user', JSON.stringify(verificationData))
-      localStorage.setItem('isAuthenticated', 'true')
-    }
-
-    closeModal()
-
-    alert(
-      `${
-        formType === 'login' ? 'Login' : 'Registration'
-      } successful! Welcome to Metavet.`
-    )
-  }
-
-  const handleBackToForm = () => {
-    setCurrentStep('form')
-  }
-
-  const switchToSignup = () => {
-    setFormType('signup')
-    setCurrentStep('form')
-    setUserInfo(null)
-  }
-
-  const switchToLogin = () => {
-    setFormType('login')
-    setCurrentStep('form')
-    setUserInfo(null)
-  }
-
-  const getModalTitle = () => {
-    if (currentStep === 'otp') {
-      return 'Verify OTP'
-    }
-    return formType === 'login' ? 'Login' : 'Register'
-  }
-
-  // Get modal size based on form type
-  const getModalClasses = () => {
-    const isSignupForm = formType === 'signup' && currentStep === 'form'
-
-    if (isSignupForm) {
-      return {
-        container:
-          'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4',
-        modal:
-          'bg-white w-full max-w-lg mx-auto rounded-xl shadow-xl h-auto max-h-[95vh] flex flex-col',
-        content: 'flex-1 overflow-y-auto',
-      }
-    }
-
-    return {
-      container:
-        'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4',
-      modal:
-        'bg-white w-full max-w-md mx-auto rounded-lg shadow-xl max-h-[90vh] overflow-y-auto',
-      content: '',
-    }
-  }
-
-  const modalClasses = getModalClasses()
 
   return (
     <header className="sticky top-0 shadow-md py-2 sm:py-4 px-4 sm:px-6 lg:px-10 font-sans min-h-[60px] sm:min-h-[70px] tracking-wide relative z-50 bg-primary">
@@ -302,9 +193,9 @@ const Header = () => {
         </nav>
 
         <div className="flex items-center space-x-3">
-          {/* Desktop SignUp Button */}
-          <button
-            onClick={() => setIsModalOpen(true)}
+          {/* Desktop SignUp Button - Now redirects to /SignUp */}
+          <Link
+            to="/SignUp"
             className={`${
               isMobile ? 'hidden' : 'flex'
             } items-center px-3 py-2 text-sm font-medium text-white border border-white border-opacity-50 rounded-md hover:bg-white hover:bg-opacity-10 transition-colors duration-200`}
@@ -321,7 +212,7 @@ const Header = () => {
               />
             </svg>
             SignUp
-          </button>
+          </Link>
 
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -457,87 +348,18 @@ const Header = () => {
             ))}
           </nav>
 
-          {/* ✅ Mobile SignUp Button */}
+          {/* Mobile SignUp Button - Now redirects to /SignUp */}
           <div className="p-4 border-t border-gray-200">
-            <button
-  onClick={() => {
-    setIsModalOpen(true)
-    closeMenu()
-  }}
-  className="w-full flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-primary rounded-md hover:bg-primary/80 transition-colors duration-200"
->
-  Sign Up
-</button>
-
+            <Link
+              to="/SignUp"
+              onClick={closeMenu}
+              className="w-full flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-primary rounded-md hover:bg-primary/80 transition-colors duration-200"
+            >
+              Sign Up
+            </Link>
           </div>
         </div>
       </div>
-
-      {/* Enhanced Modal with Better Sizing for Signup Form */}
-      {isModalOpen && (
-        <div className={modalClasses.container}>
-          <div className={modalClasses.modal}>
-            {/* Fixed Header */}
-            <div className="flex-shrink-0 flex items-center justify-between p-4 sm:p-6 border-b border-gray-200 bg-white rounded-t-xl">
-              <h1 className="text-xl font-semibold text-gray-800">
-                {getModalTitle()}
-              </h1>
-              <button
-                onClick={closeModal}
-                className="p-2 rounded-md text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors duration-200"
-              >
-                <svg
-                  className="w-5 h-5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              </button>
-            </div>
-
-            {/* Scrollable Content */}
-            <div
-              className={`${modalClasses.content || 'p-4 sm:p-6'} ${
-                formType === 'signup' && currentStep === 'form'
-                  ? 'overflow-y-auto flex-1'
-                  : ''
-              }`}
-            >
-              {currentStep === 'form' ? (
-                formType === 'login' ? (
-                  <LoginForm
-                    onSubmit={handleFormSubmit}
-                    onSwitchToSignup={switchToSignup}
-                    onClose={closeModal}
-                  />
-                ) : (
-                  <div className="space-y-4">
-                    <SignupForm
-                      onSubmit={handleFormSubmit}
-                      onSwitchToLogin={switchToLogin}
-                      onClose={closeModal}
-                    />
-                  </div>
-                )
-              ) : (
-                <OTPVerification
-                  onSubmit={handleOtpVerification}
-                  onBack={handleBackToForm}
-                  userInfo={userInfo}
-                  formType={formType}
-                />
-              )}
-            </div>
-          </div>
-        </div>
-      )}
     </header>
   )
 }

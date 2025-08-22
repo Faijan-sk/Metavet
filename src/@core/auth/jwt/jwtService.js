@@ -18,6 +18,7 @@
       // ** Request Interceptor
       axios.interceptors.request.use(
         (config) => {
+           
           // ** Get token from localStorage
           const accessToken = this.getToken()
 
@@ -35,38 +36,39 @@
       axios.interceptors.response.use(
         (response) => response,
         (error) => {
+           
           // ** const { config, response: { status } } = error
           const { config, response } = error
           const originalRequest = config
 
           // ** if (status === 401) {
-          if (response && response.status === 401) {
-            if (window.location.pathname !== '/admin-panel/login') {
-              localStorage.removeItem('userData')
-              window.location.href = '/admin-panel/login'
-              return Promise.reject(error)
-            }
-            if (!this.isAlreadyFetchingAccessToken) {
-              this.isAlreadyFetchingAccessToken = true
-              this.refreshToken().then((r) => {
-                this.isAlreadyFetchingAccessToken = false
-                // ** Update accessToken in localStorage
-                this.setToken(r.data.accessToken)
-                this.setRefreshToken(r.data.refreshToken)
-                this.onAccessTokenFetched(r.data.accessToken)
-              })
-            }
-            const retryOriginalRequest = new Promise((resolve) => {
-              this.addSubscriber((accessToken) => {
-                // ** Make sure to assign accessToken according to your response.
-                // ** Check: https://pixinvent.ticksy.com/ticket/2413870
-                // ** Change Authorization header
-                originalRequest.headers.Authorization = `${this.jwtConfig.tokenType} ${accessToken}`
-                resolve(this.axios(originalRequest))
-              })
-            })
-            return retryOriginalRequest
-          }
+          // if (response && response.status === 401) {
+          //   if (window.location.pathname !== '/admin-panel/login') {
+          //     localStorage.removeItem('userData')
+          //     window.location.href = '/admin-panel/login'
+          //     return Promise.reject(error)
+          //   }
+          //   if (!this.isAlreadyFetchingAccessToken) {
+          //     this.isAlreadyFetchingAccessToken = true
+          //     this.refreshToken().then((r) => {
+          //       this.isAlreadyFetchingAccessToken = false
+          //       // ** Update accessToken in localStorage
+          //       this.setToken(r.data.accessToken)
+          //       this.setRefreshToken(r.data.refreshToken)
+          //       this.onAccessTokenFetched(r.data.accessToken)
+          //     })
+          //   }
+          //   const retryOriginalRequest = new Promise((resolve) => {
+          //     this.addSubscriber((accessToken) => {
+          //       // ** Make sure to assign accessToken according to your response.
+          //       // ** Check: https://pixinvent.ticksy.com/ticket/2413870
+          //       // ** Change Authorization header
+          //       originalRequest.headers.Authorization = `${this.jwtConfig.tokenType} ${accessToken}`
+          //       resolve(this.axios(originalRequest))
+          //     })
+          //   })
+          //   return retryOriginalRequest
+          // }
           return Promise.reject(error)
         }
       )
@@ -121,5 +123,17 @@
       return axios.post(this.jwtConfig.loginEndpoint, ...args)
     }
 
+
+   /*
+  *   Doctor Services
+  */
+  getAllDoctors() {
+     
+  return axios.get(this.jwtConfig.getAllDoctorEndPoint);
+}
+
+  getDoctorById(doctorId) {
+    return axios.get(`${this.jwtConfig.getDoctorByIdEndPoint}/${doctorId}`)
+  }
 
   }

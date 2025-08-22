@@ -9,13 +9,13 @@ import LinChart from './views/components/product/LineChart'
 
 import React, { Suspense, lazy } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import LoginForm from './views/pages/forms/login'
+import SignUp from "./views/pages/forms/registerUser/index"
+import OtpVerification from "./views/pages/forms/otpForm/index"
 
 import Layout from './@core/layout'
-import SignIn from './views/components/LoginPages/SignIn'
-import OtpPage from './views/components/LoginPages/OtpPage'
-import CreateAccountPage from './views/components/LoginPages/CreateAccountPage'
-import ForgotPassword from './views/components/LoginPages/ForgetPassword'
-import NewPassword from './views/components/LoginPages/NewPassword'
+
+
 import DoctorDashboard from './views/components/maindoctordashboard/DoctorDasboard'
 import PatientList from './views/components/maindoctordashboard/PatientList'
 import ReviewList from './views/components/maindoctordashboard/Reviewlist'
@@ -89,13 +89,9 @@ const FeathersTeaser = lazy(() => import('./views/pages/feathersteaser'))
 const Kong = lazy(() => import('./views/pages/kong'))
 const MilkBone = lazy(() => import('./views/pages/milkbone'))
 const HillScienceDog = lazy(() => import('./views/pages/hillsciencedog'))
-const ViewProfile2 = lazy(() => import('./views/pages/viewprofile2'))
-const ViewProfile3 = lazy(() => import('./views/pages/viewprofile3'))
+
 const ViewProfile4 = lazy(() => import('./views/pages/viewprofile4'))
-const ViewProfile5 = lazy(() => import('./views/pages/viewprofile5'))
-const ViewProfile6 = lazy(() => import('./views/pages/viewprofile6'))
-const ViewProfile7 = lazy(() => import('./views/pages/viewprofile7'))
-const ViewProfile8 = lazy(() => import('./views/pages/viewprofile8'))
+
 
 const App = () => {
   const [themeMode, setThemeMode] = useState('light')
@@ -119,17 +115,7 @@ const App = () => {
         {/* Suspense will display a fallback while the lazy components load */}
         <Suspense fallback={<div>Loading...</div>}>
           <Routes>
-            {/* Authentication Routes */}
-            {/* <Route path="/" element={<Login />} />
-          <Route path="/singup" element={<CreateAccount />} />
-          <Route path="/forget" element={<ForgetPassword />} />
-          <Route path="/newpassword" element={<NewPassword />} />
-          <Route path="/email" element={<SendEmail />} /> */}
-
-            {/* 404 fallback */}
             <Route path="*" element={<h1>404 page not found</h1>} />
-
-            {/* Protected / Nested Layout Routes */}
             <Route path="/" element={<Layout />}>
               <Route path="/" element={<Dashboard />} />
               <Route path="/appointment" element={<Appointment />} />
@@ -137,9 +123,7 @@ const App = () => {
               <Route path="/mypet" element={<MyPet />} />
               <Route path="/finddoctor" element={<FindDoctor />} />
               <Route path="/contactus" element={<ContactUs />} />
-              <Route path="/appointmentform" element={<BookAppointment />} />
               <Route path="/addpet" element={<AddPet />} />
-              <Route path="/viewprofile" element={<Viewprofile />} />
               <Route path="/teleconsultation" element={<Teleconsultation />} />
               <Route path="/treatment-plans-rx" element={<TreatmentPlans />} />
               <Route path="/blood-work" element={<Bloodwork />} />
@@ -183,47 +167,24 @@ const App = () => {
                 element={<TodaysVeterinarian />}
               />
               <Route path="/newsletter" element={<NewsletterArchive />} />
-              <Route path="/hospital" element={<HospitalTour />} />
               <Route path="/surgery" element={<Surgery />} />
               <Route path="/radiology" element={<Radiology />} />
               <Route path="/faq" element={<FAQ />} />
-              <Route path="/store" element={<OnlineStore />} />
-              <Route path="/searchproduct" element={<SearchProduct />} />
-              <Route path="/myaccount" element={<MyAccount />} />
-              <Route path="/shoppingbag" element={<ShoppingBag />} />
-              <Route path="/prescription" element={<Prescription />} />
-              <Route path="/catproduct" element={<CatProduct />} />
-              <Route path="/dogproduct" element={<DogProduct />} />
-              <Route path="/frontline" element={<Frontline />} />
-              <Route path="/cosequin" element={<Cosequin />} />
-              <Route path="/hillsciencecat" element={<HillScience />} />
-              <Route path="/rimadyl" element={<Rimadyl />} />
-              <Route path="/smallpetglass" element={<SmallPetGlass />} />
-              <Route path="/marketmedley" element={<MarketMedley />} />
-              <Route path="/oxbow" element={<Oxbow />} />
-              <Route path="/feather" element={<FeathersTeaser />} />
-              <Route path="/kong" element={<Kong />} />
-              <Route path="/milkbone" element={<MilkBone />} />
-              <Route path="/hillsciencedog" element={<HillScienceDog />} />
-              <Route path="/viewprofile2" element={<ViewProfile2 />} />
-              <Route path="/viewprofile3" element={<ViewProfile3 />} />
               <Route path="/viewprofile4" element={<ViewProfile4 />} />
-              <Route path="/viewprofile5" element={<ViewProfile5 />} />
-              <Route path="/viewprofile6" element={<ViewProfile6 />} />
-              <Route path="/viewprofile7" element={<ViewProfile7 />} />
-              <Route path="/viewprofile8" element={<ViewProfile8 />} />
+          <Route path="/viewprofile" element={<Viewprofile />} />
+
+         
+              {/* Public Routes */}
+              <Route path="/signin" element={<LoginForm />} ></Route>
+              <Route path="/signup" element={<SignUp />} />
+              <Route path='/otp-verification' element={<OtpVerification />} />
+    
+
             </Route>
-            <Route path="/signin" element={<SignIn />} />
-            <Route path="/otp" element={<OtpPage />} />
-            <Route path="/createaccount" element={<CreateAccountPage />} />
-            <Route path="/forget" element={<ForgotPassword />} />
-            <Route path="/newpassword" element={<NewPassword />} />
-            <Route path="/dashboard" element={<DoctorDashboard />} />
-            <Route path="/patientlist" element={<PatientList />} />
-            <Route path="/reviewlist" element={<ReviewList />} />
-            <Route path="/appointmentslists" element={<AppointmentsLists />} />
-            <Route path="/chatlist" element={<Chatlist />} />
-            <Route path="/docmainprofile" element={<DoctorProfile />} />
+   
+              
+         
+           
           </Routes>
         </Suspense>
       </BrowserRouter>

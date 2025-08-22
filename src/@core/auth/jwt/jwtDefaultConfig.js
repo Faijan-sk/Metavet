@@ -12,8 +12,8 @@ export default {
   * Doctor EndPoints
   */
  updateDpctorEndPoint: 'api/doctors/user',
- getDoctorEndPoint : 'api/doctors/available',
- getAllDoctorEndPoint : 'api/doctors/available',
+ getDoctorByIdEndPoint : 'api/doctors',
+ getAllDoctorEndPoint : 'auth/doctors/available',
  getDoctorBySpecialityEndPoint:'api/doctors/specialization',
  getAllSpecializationEndPoint : 'api/doctors/specializations/available',
  getActiveSpecializationEndPoint : 'api/doctors/specializations/active',
@@ -27,6 +27,6 @@ export default {
   tokenType: 'Bearer',
 
   // ** Value of this property will be used as key to store JWT token in storage
-  storageTokenKeyName: 'accessToken',
-  storageRefreshTokenKeyName: 'refreshToken',
+  storageTokenKeyName: 'access',
+  storageRefreshTokenKeyName: 'refresh',
 }
