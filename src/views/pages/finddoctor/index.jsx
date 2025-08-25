@@ -125,7 +125,7 @@ const DoctorCard = ({ doctor, onFollow }) => (
           onClick={() => onFollow(doctor)}
           className="flex items-center gap-2 bg-gray-900 text-white px-4 py-2 rounded-lg font-medium hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-all duration-200 text-sm"
         >
-          Follow
+          Appointment
           <Plus className="w-4 h-4" />
         </button>
       </div>

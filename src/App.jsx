@@ -22,7 +22,7 @@ import ReviewList from './views/components/maindoctordashboard/Reviewlist'
 import AppointmentsLists from './views/components/maindoctordashboard/AppointmentsLists'
 import Chatlist from './views/components/maindoctordashboard/Chatlist'
 import DoctorProfile from './views/components/maindoctordashboard/DoctorProfile'
-
+import PetRecord from "./views/pages/pets/index"
 // ** Pages
 const Dashboard = lazy(() => import('./views/pages/dashboard'))
 const Appointment = lazy(() => import('./views/pages/appointment'))
@@ -137,6 +137,7 @@ const App = () => {
                 path="/parasite-prevention"
                 element={<ParasitePrevention />}
               />
+              <Route path='/about-pet' element={<PetRecord />} />
               <Route
                 path="/spaying-neutering"
                 element={<SpayingOrNeutering />}

@@ -4,7 +4,9 @@ import { Link, NavLink } from 'react-router-dom'
 const navItems = [
   { name: 'Find a Doctor', path: '/finddoctor', active: true },
   { name: 'Appointment', path: '/appointment', active: true },
+  { name: 'Pets', path: '/about-pet', active: true },
   { name: 'Health Record', path: '/healthrecord', active: true },
+   
   {
     name: 'Services',
     hasDropdown: true,
