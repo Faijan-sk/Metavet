@@ -11,7 +11,7 @@ export default {
   /*
   * Doctor EndPoints
   */
- updateDpctorEndPoint: 'api/doctors/user',
+ updateDpctorEndPoint: '/api/doctors',
  getDoctorByIdEndPoint : 'api/doctors',
  getAllDoctorEndPoint : 'auth/doctors/available',
  getDoctorBySpecialityEndPoint:'api/doctors/specialization',

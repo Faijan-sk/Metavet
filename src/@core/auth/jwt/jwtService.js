@@ -127,6 +127,15 @@
    /*
   *   Doctor Services
   */
+createDoctor(payload) {
+  return axios.post(this.jwtConfig.updateDpctorEndPoint, payload, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("accessToken")}`, // adjust if you store token differently
+      "Content-Type": "application/json",
+    },
+  });
+}
+
   getAllDoctors() {
      
   return axios.get(this.jwtConfig.getAllDoctorEndPoint);

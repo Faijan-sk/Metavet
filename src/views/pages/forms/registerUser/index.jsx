@@ -47,35 +47,47 @@ const index = ({ onSubmit, onSwitchToLogin, onClose }) => {
   }
 
   // ✅ Handle form submission + API integration
-  const handleFormSubmit = async (data) => {
-    if (!data.userType) {
-      setError('userType', {
-        type: 'required',
-        message: 'Please select a user type before signing up',
-      })
-      return
-    }
-
-    try {
-      console.log('📤 Sending signup data to backend:', data)
-
-      const response = await jwt.register(data)
-
-      dispatch(setUser(response.data))
-
-      console.log('✅ Signup success:', response.data)
-
-      if (response.data?.accessToken) {
-        jwt.setToken(response.data.accessToken)
-        jwt.setRefreshToken(response.data.refreshToken)
-      }
-
-      if (onSubmit) onSubmit(response.data)
-    } catch (error) {
-      console.error('❌ Signup failed:', error.response?.data || error.message)
-      setErrorMsg(error.response?.data?.message || 'Signup failed')
-    }
+const handleFormSubmit = async (data) => {
+  if (!data.userType) {
+    setError('userType', {
+      type: 'required',
+      message: 'Please select a user type before signing up',
+    })
+    return
   }
+
+  try {
+    console.log('📤 Sending signup data to backend:', data)
+
+    const response = await jwt.register(data)
+
+    dispatch(setUser(response.data))
+
+    console.log('✅ Signup success:', response.data)
+    console.log("👉 UserType:", response.data?.data?.userType);
+  
+
+    if (response.data?.accessToken) {
+      jwt.setToken(response.data.accessToken)
+      jwt.setRefreshToken(response.data.refreshToken)
+    }
+
+    if (onSubmit) {
+      onSubmit(response.data)
+    }
+if(response.data?.data?.userType === 2){
+  navigate('/updateProfile')
+}else{
+// ✅ Redirect to OTP verification page after successful signup
+    navigate('/otp-verification')
+}
+    
+
+  } catch (error) {
+    console.error('❌ Signup failed:', error.response?.data || error.message)
+    setErrorMsg(error.response?.data?.message || 'Signup failed')
+  }
+}
 
   // ✅ Handle login switch
   const handleSwitchToLogin = () => {

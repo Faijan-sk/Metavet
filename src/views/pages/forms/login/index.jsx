@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { useNavigate } from 'react-router-dom' // Add this import
+import { useNavigate } from 'react-router-dom'
 import JwtService from './../../../../@core/auth/jwt/jwtService'
 import { useDispatch } from 'react-redux'
 import { setUser } from './../../../../store/userSlice'
@@ -9,9 +9,9 @@ const jwt = new JwtService()
 
 const LoginForm = ({ onSubmit, onSwitchToSignup }) => {
   const dispatch = useDispatch()
-  const navigate = useNavigate() // Add this hook
+  const navigate = useNavigate()
   const [errorMsg, setErrorMsg] = useState('')
-  
+
   const {
     register,
     handleSubmit,
@@ -29,7 +29,6 @@ const LoginForm = ({ onSubmit, onSwitchToSignup }) => {
       setErrorMsg('')
 
       const response = await jwt.login(data)
-
       dispatch(setUser(response))
 
       console.log('✅ Login success:', response.data)
@@ -44,15 +43,9 @@ const LoginForm = ({ onSubmit, onSwitchToSignup }) => {
       }
 
       reset()
-      
-      // Redirect to OTP verification page after successful login
-      navigate('/otp-verification', { 
-        state: { 
-          phone_number: data.phone_number,
-          // You can pass any other data needed for OTP verification
-        }
+      navigate('/otp-verification', {
+        state: { phone_number: data.phone_number },
       })
-      
     } catch (error) {
       console.error('❌ Login failed:', error.response?.data || error.message)
       setErrorMsg(error.response?.data?.message || 'Login failed. Please try again.')
@@ -60,19 +53,19 @@ const LoginForm = ({ onSubmit, onSwitchToSignup }) => {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">      
-      <div className="bg-white rounded-xl shadow-lg border border-gray-100 py-4 sm:p-6 lg:p-8 w-full max-w-sm sm:max-w-md lg:max-w-lg">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 sm:px-6 lg:px-8">      
+      <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-4 sm:p-6 lg:p-8 w-full max-w-xs sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl">
         {/* Header */}
         <div className="text-center mb-6 sm:mb-8">
-          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">Welcome Back</h2>
-          <p className="text-gray-600 text-sm">Sign in to your Metavet account</p>
+          <h2 className="text-lg sm:text-2xl md:text-3xl font-bold text-gray-900 mb-2">Welcome Back</h2>
+          <p className="text-gray-600 text-xs sm:text-sm md:text-base">Sign in to your Metavet account</p>
         </div>
 
         {/* Form */}
         <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-4 sm:space-y-6">
           {/* Phone Number Field */}
           <div className="space-y-2">
-            <label className="block text-sm font-semibold text-gray-800 mb-2">
+            <label className="block text-xs sm:text-sm md:text-base font-semibold text-gray-800 mb-2">
               Phone Number
             </label>
             <div className="relative">
@@ -85,7 +78,7 @@ const LoginForm = ({ onSubmit, onSwitchToSignup }) => {
                     message: 'Please enter a valid 10-digit phone number',
                   },
                 })}
-                className={`w-full px-3 sm:px-4 py-2 sm:py-3 border-2 rounded-lg focus:outline-none focus:ring-0 transition-all duration-200 bg-gray-50 focus:bg-white text-sm sm:text-base ${
+                className={`w-full px-3 sm:px-4 py-2 sm:py-3 border-2 rounded-lg focus:outline-none focus:ring-0 transition-all duration-200 bg-gray-50 focus:bg-white text-sm sm:text-base md:text-lg ${
                   errors.phone_number
                     ? 'border-red-400 focus:border-red-500'
                     : 'border-gray-200 focus:border-primary hover:border-gray-300'
@@ -109,7 +102,7 @@ const LoginForm = ({ onSubmit, onSwitchToSignup }) => {
               )}
             </div>
             {errors.phone_number && (
-              <p className="text-red-500 text-sm flex items-center mt-1">
+              <p className="text-red-500 text-xs sm:text-sm flex items-center mt-1">
                 <svg
                   className="w-4 h-4 mr-1"
                   fill="currentColor"
@@ -128,18 +121,18 @@ const LoginForm = ({ onSubmit, onSwitchToSignup }) => {
 
           {/* Error Message */}
           {errorMsg && (
-            <p className="text-red-500 text-sm text-center">{errorMsg}</p>
+            <p className="text-red-500 text-xs sm:text-sm md:text-base text-center">{errorMsg}</p>
           )}
 
           {/* Submit Button */}
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full py-2 sm:py-3 px-4 rounded-lg bg-primary text-white font-semibold focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 hover:bg-primary/90 transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 disabled:opacity-70 text-sm sm:text-base"
+            className="w-full py-2 sm:py-3 md:py-4 px-4 rounded-lg bg-primary text-white font-semibold focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 hover:bg-primary/90 transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 disabled:opacity-70 text-sm sm:text-base md:text-lg"
           >
             <span className="flex items-center justify-center">
               <svg
-                className="w-4 h-4 sm:w-5 sm:h-5 mr-2"
+                className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 mr-2"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -160,7 +153,7 @@ const LoginForm = ({ onSubmit, onSwitchToSignup }) => {
             <div className="absolute inset-0 flex items-center">
               <div className="w-full border-t border-gray-200"></div>
             </div>
-            <div className="relative flex justify-center text-sm">
+            <div className="relative flex justify-center text-xs sm:text-sm md:text-base">
               <span className="px-4 bg-white text-gray-500">New to Metavet?</span>
             </div>
           </div>
@@ -170,7 +163,7 @@ const LoginForm = ({ onSubmit, onSwitchToSignup }) => {
             <button
               type="button"
               onClick={onSwitchToSignup}
-              className="inline-flex items-center text-primary font-semibold hover:text-primary/80 transition-colors duration-200 hover:underline decoration-2 underline-offset-2 text-sm sm:text-base"
+              className="inline-flex items-center text-primary font-semibold hover:text-primary/80 transition-colors duration-200 hover:underline decoration-2 underline-offset-2 text-xs sm:text-sm md:text-base"
             >
               <svg
                 className="w-4 h-4 mr-1"
@@ -192,7 +185,7 @@ const LoginForm = ({ onSubmit, onSwitchToSignup }) => {
 
         {/* Footer */}
         <div className="mt-6 sm:mt-8 pt-4 sm:pt-6 border-t border-gray-100">
-          <p className="text-center text-xs text-gray-500">
+          <p className="text-center text-[10px] sm:text-xs md:text-sm text-gray-500">
             By continuing, you agree to Metavet&apos;s Terms of Service and Privacy
             Policy
           </p>

@@ -138,8 +138,7 @@ const dispatch=useDispatch()
     try {
       // ✅ Get token from Redux response - handle both register & login response structure
       const token = response?.data?.token || response?.token
-      console.log("Token being sent:", token)
-      console.log("OTP payload:", apiPayload)
+      
       // 🔹 Call API - token will go in URL, otp in body
       const {data} = await jwt.verifyOtp(apiPayload, token)
       const {data:user,accessToken,refreshToken,success}=data;
@@ -236,7 +235,7 @@ const dispatch=useDispatch()
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4"> 
       {/* Card Wrapper with Shadow */}
-      <div className="bg-white rounded-xl shadow-xl border border-gray-100 p-8 w-full max-w-md">
+      <div className="bg-white rounded-xl shadow-xl border border-gray-100 p-8 w-full max-w-xl">
         <div className="space-y-6">
           {/* Header */}
           <div className="text-center">
