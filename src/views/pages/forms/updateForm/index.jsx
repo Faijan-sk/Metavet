@@ -40,7 +40,7 @@ const DoctorProfileForm = ({ onSubmit }) => {
       employmentType: "Full-time",
       isActive: true,
       emergencyContactNumber: "+91-9876543210",
-    },
+    }, 
   });
 
 // ✅ Form Submit
