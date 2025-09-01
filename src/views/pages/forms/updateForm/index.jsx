@@ -305,11 +305,34 @@ const DoctorProfileForm = ({ onSubmit }) => {
             <label className="block text-sm font-semibold text-gray-800 mb-2">
               License Number
             </label>
+            {/* <input
+              type="text"
+              {...register("licenseNumber", {
+                required: "License number is required",
+                pattern: {
+                  value: /^[A-Z]{2}\d{2}\s\d{4}\s\d{7}$/,
+                  message:
+                    "Enter a valid license number (e.g., MH14 2025 1234567)",
+                },
+              })}
+              className={inputClass(errors.licenseNumber)}
+              placeholder="License Number"
+
+            /> */}
             <input
               type="text"
               {...register("licenseNumber", {
                 required: "License number is required",
+                pattern: {
+                  value: /^[A-Z]{2}\d{2}\s\d{4}\s\d{7}$/,
+                  message:
+                    "Enter a valid license number (e.g., MH14 2025 1234567)",
+                },
+                setValueAs: (v) => v?.toUpperCase(), // store uppercase in RHF state
               })}
+              onInput={(e) => {
+                e.target.value = e.target.value.toUpperCase(); // show uppercase instantly
+              }}
               className={inputClass(errors.licenseNumber)}
               placeholder="License Number"
             />
