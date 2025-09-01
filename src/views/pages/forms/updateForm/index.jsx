@@ -323,16 +323,13 @@ const DoctorProfileForm = ({ onSubmit }) => {
               type="text"
               {...register("licenseNumber", {
                 required: "License number is required",
-                pattern: {
-                  value: /^[A-Z]{2}\d{2}\s\d{4}\s\d{7}$/,
-                  message:
-                    "Enter a valid license number (e.g., MH14 2025 1234567)",
-                },
-                setValueAs: (v) => v?.toUpperCase(), // store uppercase in RHF state
+                // pattern: {
+                //   value: /^[A-Z]{2}\d{2}\s\d{4}\s\d{7}$/,
+                //   message: "Enter a valid license number (e.g., MH14 2025 1234567)",
+                // },
+                setValueAs: (v) => (v ? v.toUpperCase() : ""), // safely transform
               })}
-              onInput={(e) => {
-                e.target.value = e.target.value.toUpperCase(); // show uppercase instantly
-              }}
+              style={{ textTransform: "uppercase" }} // display uppercase
               className={inputClass(errors.licenseNumber)}
               placeholder="License Number"
             />
