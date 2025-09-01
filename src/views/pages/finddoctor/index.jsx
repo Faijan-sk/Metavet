@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Users, Image, Plus, User, Search, X } from 'lucide-react';
+import { Image, Plus, Search, User, Users, X } from "lucide-react";
+import { useEffect, useState } from "react";
 import useJwt from "../../../enpoints/jwt/useJwt";
 
 // LoadingCard - skeleton with grey background
@@ -44,7 +44,11 @@ const DoctorCard = ({ doctor, onFollow }) => (
   <div className="w-full max-w-sm mx-auto bg-white rounded-3xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
     {/* Image Section */}
     <div className="relative">
-      <div className={`w-full h-64 flex items-center justify-center overflow-hidden ${doctor.profileImage ? '' : 'bg-grey-200'}`}>
+      <div
+        className={`w-full h-64 flex items-center justify-center overflow-hidden ${
+          doctor.profileImage ? "" : "bg-grey-200"
+        }`}
+      >
         {doctor.profileImage ? (
           <img
             src={doctor.profileImage}
@@ -94,7 +98,8 @@ const DoctorCard = ({ doctor, onFollow }) => (
       <div className="space-y-2 mb-6">
         {doctor.qualification && (
           <p className="text-gray-600 text-sm">
-            <span className="font-medium">Qualification:</span> {doctor.qualification}
+            <span className="font-medium">Qualification:</span>{" "}
+            {doctor.qualification}
           </p>
         )}
         {doctor.bio && (
@@ -136,7 +141,7 @@ const DoctorCard = ({ doctor, onFollow }) => (
 // Search Bar Component
 const SearchBar = ({ searchQuery, setSearchQuery }) => {
   const clearSearch = () => {
-    setSearchQuery('');
+    setSearchQuery("");
   };
 
   return (
@@ -194,11 +199,23 @@ const EmptyState = () => (
 const ErrorState = ({ error, onRetry }) => (
   <div className="text-center py-12">
     <div className="text-red-500 mb-4">
-      <svg className="w-16 h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+      <svg
+        className="w-16 h-16 mx-auto"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+        />
       </svg>
     </div>
-    <h3 className="text-lg font-medium text-gray-900 mb-2">Something went wrong</h3>
+    <h3 className="text-lg font-medium text-gray-900 mb-2">
+      Something went wrong
+    </h3>
     <p className="text-gray-500 mb-4">{error}</p>
     {onRetry && (
       <button
@@ -216,18 +233,18 @@ const FindDoctor = () => {
   const [filteredDoctors, setFilteredDoctors] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
 
   // Filter doctors based on search query
   useEffect(() => {
     if (!searchQuery.trim()) {
       setFilteredDoctors(doctors);
     } else {
-      const filtered = doctors.filter(doctor => {
+      const filtered = doctors.filter((doctor) => {
         const fullName = `${doctor.firstName} ${doctor.lastName}`.toLowerCase();
-        const specialization = doctor.specialization?.toLowerCase() || '';
+        const specialization = doctor.specialization?.toLowerCase() || "";
         const query = searchQuery.toLowerCase();
-        
+
         return fullName.includes(query) || specialization.includes(query);
       });
       setFilteredDoctors(filtered);
@@ -244,16 +261,15 @@ const FindDoctor = () => {
 
       // Remove artificial delay
       setLoading(false);
-
     } catch (error) {
-      console.error('Error fetching doctors:', error);
-      setError(error.message || 'Failed to fetch doctors');
+      console.error("Error fetching doctors:", error);
+      setError(error.message || "Failed to fetch doctors");
       setLoading(false);
     }
   };
 
   const handleFollow = (doctor) => {
-    console.log('Following doctor:', doctor);
+    console.log("Following doctor:", doctor);
   };
 
   useEffect(() => {
@@ -265,13 +281,20 @@ const FindDoctor = () => {
       <div className="container mx-auto px-4 py-6">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Find Doctors</h1>
-          <p className="text-gray-600">Discover qualified healthcare professionals</p>
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">
+            Find Doctors
+          </h1>
+          <p className="text-gray-600">
+            Discover qualified healthcare professionals
+          </p>
         </div>
 
         {/* Search Bar */}
         {!loading && !error && (
-          <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+          <SearchBar
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
+          />
         )}
 
         {/* Content */}
@@ -293,19 +316,44 @@ const FindDoctor = () => {
               <p className="text-gray-600">
                 {searchQuery ? (
                   <>
-                    Found {filteredDoctors.length} doctor{filteredDoctors.length !== 1 ? 's' : ''} 
-                    {searchQuery && <span className="font-medium"> matching "{searchQuery}"</span>}
+                    Found{" "}
+                    {
+                      filteredDoctors.filter(
+                        (x) => x?.doctorProfileStatus === "APPROVED"
+                      ).length
+                    }{" "}
+                    doctor{filteredDoctors.length !== 1 ? "s" : ""}
+                    {searchQuery && (
+                      <span className="font-medium">
+                        {" "}
+                        matching "{searchQuery}"
+                      </span>
+                    )}
                   </>
                 ) : (
-                  <>Found {doctors.length} doctor{doctors.length !== 1 ? 's' : ''}</>
+                  <>
+                    Found{" "}
+                    {
+                      doctors.filter(
+                        (x) => x?.doctorProfileStatus === "APPROVED"
+                      ).length
+                    }{" "}
+                    doctor{doctors.length !== 1 ? "s" : ""}
+                  </>
                 )}
               </p>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {filteredDoctors.map((doctor, index) => (
-                <DoctorCard key={doctor.id || index} doctor={doctor} onFollow={handleFollow} />
-              ))}
+              {filteredDoctors
+                .filter((x) => x?.doctorProfileStatus === "APPROVED")
+                .map((doctor, index) => (
+                  <DoctorCard
+                    key={doctor.id || index}
+                    doctor={doctor}
+                    onFollow={handleFollow}
+                  />
+                ))}
             </div>
           </>
         )}

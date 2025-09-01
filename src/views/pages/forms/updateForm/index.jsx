@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import JwtService from "./../../../../@core/auth/jwt/jwtService";
 
@@ -10,7 +10,7 @@ const DoctorProfileForm = ({ onSubmit }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [errorMsg, setErrorMsg] = useState("");
-   const response = useSelector((state) => state.user.data)
+  const response = useSelector((state) => state.user.data);
 
   const {
     register,
@@ -18,81 +18,94 @@ const DoctorProfileForm = ({ onSubmit }) => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      experienceYears: "10",
-      hospitalClinicName: "Apollo Hospitals",
-      hospitalClinicAddress: "123 MG Road, Indiranagar",
-      pincode: "560038",
-      address: "Flat 204, Green Residency, Indiranagar",
+      experienceYears: "8",
+      hospitalClinicName: "Sunrise Medical Center",
+      hospitalClinicAddress: "456 Residency Road, Whitefield",
+      pincode: "560066",
+      address: "Apt 12B, Maple Residency, Whitefield",
       country: "India",
       city: "Bengaluru",
       state: "Karnataka",
-      bio: "Dr. Arjun Sharma is a highly experienced cardiologist with over a decade of expertise in treating cardiovascular diseases and performing complex surgeries.",
-      consultationFee: "1200",
-      gender: "Male",
-      dateOfBirth: "1980-07-15",
-      licenseNumber: "MH/DR/56789",
-      licenseIssueDate: "2010-03-20",
-      licenseExpiryDate: "2030-03-19",
-      qualification: "MBBS, MD (Cardiology)",
-      specialization: "Cardiologist",
-      previousWorkplace: "Fortis Healthcare",
-      joiningDate: "2021-05-01",
-      employmentType: "Full-time",
+      bio: "Dr. Neha Kapoor is a skilled neurologist with expertise in treating complex neurological disorders and guiding patients through recovery.",
+      consultationFee: "1500",
+      gender: "Female",
+      dateOfBirth: "1985-11-22",
+      licenseNumber: "KADR89123",
+      licenseIssueDate: "2012-08-10",
+      licenseExpiryDate: "2032-08-09",
+      qualification: "MBBS, MD (Neurology)",
+      specialization: "Neurologist",
+      previousWorkplace: "Manipal Hospital",
+      joiningDate: "2022-01-15",
+      employmentType: "Part-time",
       isActive: true,
-      emergencyContactNumber: "+91-9876543210",
-    }, 
+      emergencyContactNumber: "9123456780",
+    },
   });
 
-// ✅ Form Submit
-const handleFormSubmit = async (data) => {
-  try {
-    // Transform form data into API payload
-    const payload = {
-      user: {
-        uid: response?.data?.uid, 
-      },
-      experienceYears: Number(data.experienceYears),
-      hospitalClinicName: data.hospitalClinicName,
-      hospitalClinicAddress: data.hospitalClinicAddress,
-      pincode: data.pincode,
-      address: data.address,
-      country: data.country,
-      city: data.city,
-      state: data.state,
-      bio: data.bio,
-      consultationFee: Number(data.consultationFee),
-      gender: data.gender.toUpperCase(), // ensure API expects MALE/FEMALE/OTHER
-      dateOfBirth: data.dateOfBirth,
-      licenseNumber: data.licenseNumber,
-      licenseIssueDate: data.licenseIssueDate,
-      licenseExpiryDate: data.licenseExpiryDate,
-      qualification: data.qualification,
-      specialization: data.specialization,
-      previousWorkplace: data.previousWorkplace,
-      joiningDate: data.joiningDate,
-      employmentType: data.employmentType.toUpperCase(),
-      isActive: Boolean(data.isActive),
-      emergencyContactNumber: data.emergencyContactNumber,
-    };
+  // ✅ Form Submit
+  const handleFormSubmit = async (data) => {
+    try {
+      // Transform form data into API payload
+      const payload = {
+        userId: response?.data?.uid,
+        experienceYears: Number(data.experienceYears),
+        hospitalClinicName: data.hospitalClinicName,
+        hospitalClinicAddress: data.hospitalClinicAddress,
+        pincode: data.pincode,
+        address: data.address,
+        country: data.country,
+        city: data.city,
+        state: data.state,
+        bio: data.bio,
+        consultationFee: Number(data.consultationFee),
+        gender: data.gender.toUpperCase(), // ensure API expects MALE/FEMALE/OTHER
+        dateOfBirth: data.dateOfBirth,
+        licenseNumber: data.licenseNumber,
+        licenseIssueDate: data.licenseIssueDate,
+        licenseExpiryDate: data.licenseExpiryDate,
+        qualification: data.qualification,
+        specialization: data.specialization,
+        previousWorkplace: data.previousWorkplace,
+        joiningDate: data.joiningDate,
+        employmentType: data.employmentType.toUpperCase(),
+        isActive: Boolean(data.isActive),
+        emergencyContactNumber: data.emergencyContactNumber,
+      };
 
-    console.table( payload);
+      const res = await jwt.createDoctor(payload);
 
-    const res = await jwt.createDoctor(payload);
-
-    if (onSubmit) onSubmit(res.data);
-
-    navigate("/dashboard");
-  } catch (error) {
-    console.error("❌ Profile update failed:", error.response?.data || error.message);
-    setErrorMsg(error.response?.data?.message || "Profile update failed");
-  }
-};
-
+      const loginPyaload = {
+        phone_number: response?.data?.phoneNumber,
+        countryCode: response?.data?.countryCode,
+      };
+      let loginRes;
+      if (res?.status === 201) {
+        loginRes = await jwt.login(loginPyaload);
+        console.log("loginres", loginRes);
+      }
+      navigate("/otp-verification", {
+        state: {
+          otp: loginRes?.data?.otp,
+        },
+      });
+    } catch (error) {
+      console.error(
+        "❌ Profile update failed:",
+        error.response?.data || error.message
+      );
+      setErrorMsg(error.response?.data?.message || "Profile update failed");
+    }
+  };
 
   // ✅ Common Input Class
   const inputClass = (err) =>
     `w-full px-3 sm:px-4 py-2.5 sm:py-3 border-2 rounded-lg text-sm sm:text-base
-    ${err ? "border-red-400 focus:border-red-500" : "border-gray-200 focus:border-primary hover:border-gray-300"}
+    ${
+      err
+        ? "border-red-400 focus:border-red-500"
+        : "border-gray-200 focus:border-primary hover:border-gray-300"
+    }
     focus:outline-none bg-gray-50 focus:bg-white transition-all duration-200`;
 
   // ✅ Error Component with Icon
@@ -118,20 +131,31 @@ const handleFormSubmit = async (data) => {
     <div className="my-20 bg-white shadow-lg border border-gray-100 px-4 py-6 sm:px-6 sm:py-8 md:px-8 md:py-10 lg:px-12 xl:px-16 2xl:px-40 max-w-full mx-auto">
       {/* Header */}
       <div className="text-center mb-6 sm:mb-8">
-        <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">Doctor Profile</h2>
-        <p className="text-gray-600 text-sm">Complete your professional details</p>
-        <p>{response?.data?.firstName}</p>
-        <p>{response?.data?.userType}</p>
+        <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">
+          Doctor Profile
+        </h2>
+        <p className="text-gray-600 text-sm">
+          Complete your professional details
+        </p>
+        {/* <p>{response?.data?.firstName}</p>
+        <p>{response?.data?.userType}</p> */}
       </div>
 
       {/* Form */}
-      <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-4 sm:space-y-6">
+      <form
+        onSubmit={handleSubmit(handleFormSubmit)}
+        className="space-y-4 sm:space-y-6"
+      >
         {/* Experience */}
         <div>
-          <label className="block text-sm font-semibold text-gray-800 mb-2">Experience (Years)</label>
+          <label className="block text-sm font-semibold text-gray-800 mb-2">
+            Experience (Years)
+          </label>
           <input
             type="number"
-            {...register("experienceYears", { required: "Experience is required" })}
+            {...register("experienceYears", {
+              required: "Experience is required",
+            })}
             className={inputClass(errors.experienceYears)}
             placeholder="Enter total years"
           />
@@ -141,17 +165,23 @@ const handleFormSubmit = async (data) => {
         {/* Hospital + Pincode */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-semibold text-gray-800 mb-2">Hospital/Clinic Name</label>
+            <label className="block text-sm font-semibold text-gray-800 mb-2">
+              Hospital/Clinic Name
+            </label>
             <input
               type="text"
-              {...register("hospitalClinicName", { required: "Hospital/Clinic name is required" })}
+              {...register("hospitalClinicName", {
+                required: "Hospital/Clinic name is required",
+              })}
               className={inputClass(errors.hospitalClinicName)}
               placeholder="Hospital Name"
             />
             <ErrorMsg message={errors.hospitalClinicName?.message} />
           </div>
           <div>
-            <label className="block text-sm font-semibold text-gray-800 mb-2">Pincode</label>
+            <label className="block text-sm font-semibold text-gray-800 mb-2">
+              Pincode
+            </label>
             <input
               type="text"
               {...register("pincode", { required: "Pincode is required" })}
@@ -164,10 +194,14 @@ const handleFormSubmit = async (data) => {
 
         {/* Hospital Address */}
         <div>
-          <label className="block text-sm font-semibold text-gray-800 mb-2">Hospital/Clinic Address</label>
+          <label className="block text-sm font-semibold text-gray-800 mb-2">
+            Hospital/Clinic Address
+          </label>
           <input
             type="text"
-            {...register("hospitalClinicAddress", { required: "Address is required" })}
+            {...register("hospitalClinicAddress", {
+              required: "Address is required",
+            })}
             className={inputClass(errors.hospitalClinicAddress)}
             placeholder="Full Address"
           />
@@ -176,7 +210,9 @@ const handleFormSubmit = async (data) => {
 
         {/* Home Address */}
         <div>
-          <label className="block text-sm font-semibold text-gray-800 mb-2">Residential Address</label>
+          <label className="block text-sm font-semibold text-gray-800 mb-2">
+            Residential Address
+          </label>
           <input
             type="text"
             {...register("address", { required: "Address is required" })}
@@ -210,7 +246,9 @@ const handleFormSubmit = async (data) => {
 
         {/* Bio */}
         <div>
-          <label className="block text-sm font-semibold text-gray-800 mb-2">Short Bio</label>
+          <label className="block text-sm font-semibold text-gray-800 mb-2">
+            Short Bio
+          </label>
           <textarea
             {...register("bio", { required: "Bio is required" })}
             className={inputClass(errors.bio)}
@@ -221,7 +259,9 @@ const handleFormSubmit = async (data) => {
 
         {/* Consultation Fee */}
         <div>
-          <label className="block text-sm font-semibold text-gray-800 mb-2">Consultation Fee (₹)</label>
+          <label className="block text-sm font-semibold text-gray-800 mb-2">
+            Consultation Fee (₹)
+          </label>
           <input
             type="number"
             {...register("consultationFee", { required: "Fee is required" })}
@@ -234,8 +274,13 @@ const handleFormSubmit = async (data) => {
         {/* Gender + DOB */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-semibold text-gray-800 mb-2">Gender</label>
-            <select {...register("gender", { required: "Gender is required" })} className={inputClass(errors.gender)}>
+            <label className="block text-sm font-semibold text-gray-800 mb-2">
+              Gender
+            </label>
+            <select
+              {...register("gender", { required: "Gender is required" })}
+              className={inputClass(errors.gender)}
+            >
               <option value="">Select Gender</option>
               <option value="MALE">Male</option>
               <option value="FEMALE">Female</option>
@@ -243,7 +288,9 @@ const handleFormSubmit = async (data) => {
             </select>
           </div>
           <div>
-            <label className="block text-sm font-semibold text-gray-800 mb-2">Date of Birth</label>
+            <label className="block text-sm font-semibold text-gray-800 mb-2">
+              Date of Birth
+            </label>
             <input
               type="date"
               {...register("dateOfBirth", { required: "DOB is required" })}
@@ -255,27 +302,39 @@ const handleFormSubmit = async (data) => {
         {/* License */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div>
-            <label className="block text-sm font-semibold text-gray-800 mb-2">License Number</label>
+            <label className="block text-sm font-semibold text-gray-800 mb-2">
+              License Number
+            </label>
             <input
               type="text"
-              {...register("licenseNumber", { required: "License number is required" })}
+              {...register("licenseNumber", {
+                required: "License number is required",
+              })}
               className={inputClass(errors.licenseNumber)}
               placeholder="License Number"
             />
           </div>
           <div>
-            <label className="block text-sm font-semibold text-gray-800 mb-2">Issue Date</label>
+            <label className="block text-sm font-semibold text-gray-800 mb-2">
+              Issue Date
+            </label>
             <input
               type="date"
-              {...register("licenseIssueDate", { required: "Issue date is required" })}
+              {...register("licenseIssueDate", {
+                required: "Issue date is required",
+              })}
               className={inputClass(errors.licenseIssueDate)}
             />
           </div>
           <div>
-            <label className="block text-sm font-semibold text-gray-800 mb-2">Expiry Date</label>
+            <label className="block text-sm font-semibold text-gray-800 mb-2">
+              Expiry Date
+            </label>
             <input
               type="date"
-              {...register("licenseExpiryDate", { required: "Expiry date is required" })}
+              {...register("licenseExpiryDate", {
+                required: "Expiry date is required",
+              })}
               className={inputClass(errors.licenseExpiryDate)}
             />
           </div>
@@ -284,19 +343,27 @@ const handleFormSubmit = async (data) => {
         {/* Qualification + Specialization */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-semibold text-gray-800 mb-2">Qualification</label>
+            <label className="block text-sm font-semibold text-gray-800 mb-2">
+              Qualification
+            </label>
             <input
               type="text"
-              {...register("qualification", { required: "Qualification is required" })}
+              {...register("qualification", {
+                required: "Qualification is required",
+              })}
               className={inputClass(errors.qualification)}
               placeholder="MBBS, MD"
             />
           </div>
           <div>
-            <label className="block text-sm font-semibold text-gray-800 mb-2">Specialization</label>
+            <label className="block text-sm font-semibold text-gray-800 mb-2">
+              Specialization
+            </label>
             <input
               type="text"
-              {...register("specialization", { required: "Specialization is required" })}
+              {...register("specialization", {
+                required: "Specialization is required",
+              })}
               className={inputClass(errors.specialization)}
               placeholder="Cardiology"
             />
@@ -306,19 +373,27 @@ const handleFormSubmit = async (data) => {
         {/* Previous Workplace + Joining Date */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-semibold text-gray-800 mb-2">Previous Workplace</label>
+            <label className="block text-sm font-semibold text-gray-800 mb-2">
+              Previous Workplace
+            </label>
             <input
               type="text"
-              {...register("previousWorkplace", { required: "Previous workplace is required" })}
+              {...register("previousWorkplace", {
+                required: "Previous workplace is required",
+              })}
               className={inputClass(errors.previousWorkplace)}
               placeholder="Fortis Hospital"
             />
           </div>
           <div>
-            <label className="block text-sm font-semibold text-gray-800 mb-2">Joining Date</label>
+            <label className="block text-sm font-semibold text-gray-800 mb-2">
+              Joining Date
+            </label>
             <input
               type="date"
-              {...register("joiningDate", { required: "Joining date is required" })}
+              {...register("joiningDate", {
+                required: "Joining date is required",
+              })}
               className={inputClass(errors.joiningDate)}
             />
           </div>
@@ -326,9 +401,13 @@ const handleFormSubmit = async (data) => {
 
         {/* Employment Type */}
         <div>
-          <label className="block text-sm font-semibold text-gray-800 mb-2">Employment Type</label>
+          <label className="block text-sm font-semibold text-gray-800 mb-2">
+            Employment Type
+          </label>
           <select
-            {...register("employmentType", { required: "Employment type is required" })}
+            {...register("employmentType", {
+              required: "Employment type is required",
+            })}
             className={inputClass(errors.employmentType)}
           >
             <option value="">Select Employment Type</option>
@@ -345,15 +424,21 @@ const handleFormSubmit = async (data) => {
             {...register("isActive")}
             className="h-4 w-4 text-primary border-gray-300 rounded focus:ring-primary"
           />
-          <label className="text-sm font-semibold text-gray-800 mb-2">Active</label>
+          <label className="text-sm font-semibold text-gray-800 mb-2">
+            Active
+          </label>
         </div>
 
         {/* Emergency Contact */}
         <div>
-          <label className="block text-sm font-semibold text-gray-800 mb-2">Emergency Contact Number</label>
+          <label className="block text-sm font-semibold text-gray-800 mb-2">
+            Emergency Contact Number
+          </label>
           <input
             type="tel"
-            {...register("emergencyContactNumber", { required: "Emergency contact is required" })}
+            {...register("emergencyContactNumber", {
+              required: "Emergency contact is required",
+            })}
             className={inputClass(errors.emergencyContactNumber)}
             placeholder="9988776655"
           />

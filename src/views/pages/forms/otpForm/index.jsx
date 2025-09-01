@@ -1,21 +1,23 @@
-import { useState, useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { useForm, Controller } from 'react-hook-form'
-import { useNavigate } from 'react-router-dom' // Add this import
-import JwtService from './../../../../@core/auth/jwt/jwtService'
-import { handleLogin } from '../../../../store/userSlice'
+import { useEffect, useState } from "react";
+import { Controller, useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom"; // Add this import
+import { handleLogin } from "../../../../store/userSlice";
+import JwtService from "./../../../../@core/auth/jwt/jwtService";
 
-const jwt = new JwtService()
+const jwt = new JwtService();
 
 const OTPVerification = ({ onSubmit, onBack, userInfo, formType }) => {
-  const navigate = useNavigate() // Add navigation hook
-  const [timeLeft, setTimeLeft] = useState(60)
-  const [canResend, setCanResend] = useState(false)
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const response = useSelector((state) => state.user.data)
+  const navigate = useNavigate(); // Add navigation hook
+  const [timeLeft, setTimeLeft] = useState(60);
+  const [canResend, setCanResend] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const response = useSelector((state) => state.user.data);
+  const location = useLocation();
+  const otpDr = location?.state?.otp;
 
-// ** hooks
-const dispatch=useDispatch()
+  // ** hooks
+  const dispatch = useDispatch();
 
   const {
     control,
@@ -25,215 +27,251 @@ const dispatch=useDispatch()
     setValue,
     watch,
     formState: { errors },
-    reset
+    reset,
   } = useForm({
     defaultValues: {
-      otp0: '',
-      otp1: '',
-      otp2: '',
-      otp3: ''
+      otp0: "",
+      otp1: "",
+      otp2: "",
+      otp3: "",
+    },
+  });
+  // {{debugger}}
+  const watchedOtp = watch(["otp0", "otp1", "otp2", "otp3"]);
+  useEffect(() => {
+    if (response?.data?.otp) {
+      let otpArray;
+      if (otpDr) {
+         otpArray = otpDr.split("");
+      } else {
+         otpArray = response.data.otp.split(""); // ["1","2","3","4"]
+      }
+      reset({
+        otp0: otpArray[0] || "",
+        otp1: otpArray[1] || "",
+        otp2: otpArray[2] || "",
+        otp3: otpArray[3] || "",
+      });
     }
-  })
-
-  const watchedOtp = watch(['otp0', 'otp1', 'otp2', 'otp3'])
+  }, [response, reset]);
 
   // Timer for resend OTP
   useEffect(() => {
     if (timeLeft > 0) {
-      const timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000)
-      return () => clearTimeout(timer)
+      const timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
+      return () => clearTimeout(timer);
     } else {
-      setCanResend(true)
+      setCanResend(true);
     }
-  }, [timeLeft])
+  }, [timeLeft]);
 
   // Auto-focus first input on component mount
   useEffect(() => {
-    const firstInput = document.getElementById('otp-0')
+    const firstInput = document.getElementById("otp-0");
     if (firstInput) {
-      firstInput.focus()
+      firstInput.focus();
     }
-  }, [])
+  }, []);
 
   // Handle OTP input change
   const handleOtpChange = (index, value, onChange) => {
     // Only allow numbers
-    if (value && !/^\d$/.test(value)) return
+    if (value && !/^\d$/.test(value)) return;
 
-    onChange(value)
-    clearErrors() // Clear error when user types
+    onChange(value);
+    clearErrors(); // Clear error when user types
 
     // Auto focus next input
     if (value && index < 3) {
-      const nextInput = document.getElementById(`otp-${index + 1}`)
-      if (nextInput) nextInput.focus()
+      const nextInput = document.getElementById(`otp-${index + 1}`);
+      if (nextInput) nextInput.focus();
     }
-  }
+  };
 
   // Handle paste event
   const handlePaste = (e) => {
-    e.preventDefault()
-    const pastedData = e.clipboardData.getData('text/plain').slice(0, 4)
+    e.preventDefault();
+    const pastedData = e.clipboardData.getData("text/plain").slice(0, 4);
 
     if (!/^\d+$/.test(pastedData)) {
-      setError('root', { 
-        type: 'manual', 
-        message: 'Please paste only numbers' 
-      })
-      return
+      setError("root", {
+        type: "manual",
+        message: "Please paste only numbers",
+      });
+      return;
     }
 
     // Set each digit to the corresponding field
     for (let i = 0; i < Math.min(pastedData.length, 4); i++) {
-      setValue(`otp${i}`, pastedData[i] || '')
+      setValue(`otp${i}`, pastedData[i] || "");
     }
-    
+
     // Clear remaining fields if paste is shorter than 4 digits
     for (let i = pastedData.length; i < 4; i++) {
-      setValue(`otp${i}`, '')
+      setValue(`otp${i}`, "");
     }
 
-    clearErrors()
+    clearErrors();
 
     // Focus the next empty input or last input
-    const nextEmptyIndex = pastedData.length >= 4 ? 3 : pastedData.length
-    const inputToFocus = document.getElementById(`otp-${nextEmptyIndex}`)
-    if (inputToFocus) inputToFocus.focus()
-  }
+    const nextEmptyIndex = pastedData.length >= 4 ? 3 : pastedData.length;
+    const inputToFocus = document.getElementById(`otp-${nextEmptyIndex}`);
+    if (inputToFocus) inputToFocus.focus();
+  };
 
   // Handle backspace and arrow keys
   const handleKeyDown = (index, e) => {
-    if (e.key === 'Backspace' && !watchedOtp[index] && index > 0) {
-      const prevInput = document.getElementById(`otp-${index - 1}`)
-      if (prevInput) prevInput.focus()
-    } else if (e.key === 'ArrowLeft' && index > 0) {
-      const prevInput = document.getElementById(`otp-${index - 1}`)
-      if (prevInput) prevInput.focus()
-    } else if (e.key === 'ArrowRight' && index < 3) {
-      const nextInput = document.getElementById(`otp-${index + 1}`)
-      if (nextInput) nextInput.focus()
+    if (e.key === "Backspace" && !watchedOtp[index] && index > 0) {
+      const prevInput = document.getElementById(`otp-${index - 1}`);
+      if (prevInput) prevInput.focus();
+    } else if (e.key === "ArrowLeft" && index > 0) {
+      const prevInput = document.getElementById(`otp-${index - 1}`);
+      if (prevInput) prevInput.focus();
+    } else if (e.key === "ArrowRight" && index < 3) {
+      const nextInput = document.getElementById(`otp-${index + 1}`);
+      if (nextInput) nextInput.focus();
     }
-  }
+  };
 
   // Updated handleOtpSubmit method with dashboard redirect
   const handleOtpSubmit = async (data) => {
-    const otpValue = `${data.otp0}${data.otp1}${data.otp2}${data.otp3}`
+   
+    const otpValue = `${data.otp0}${data.otp1}${data.otp2}${data.otp3}`;
 
     if (otpValue.length !== 4) {
-      setError('root', { 
-        type: 'manual', 
-        message: 'Please enter complete 4-digit OTP' 
-      })
-      return
+      setError("root", {
+        type: "manual",
+        message: "Please enter complete 4-digit OTP",
+      });
+      return;
     }
 
     // ✅ Correct API payload format
-    const apiPayload = {
-      otp: otpValue
-    }
 
-    setIsSubmitting(true)
-    clearErrors()
+    setIsSubmitting(true);
+    clearErrors();
 
     try {
       // ✅ Get token from Redux response - handle both register & login response structure
-      const token = response?.data?.token || response?.token
-      
+      const apiPayload = {
+        otp: otpValue,
+      };
+      const token = response?.data?.token || response?.token;
+
       // 🔹 Call API - token will go in URL, otp in body
-      const {data} = await jwt.verifyOtp(apiPayload, token)
-      const {data:user,accessToken,refreshToken,success}=data;
+      const { data } = await jwt.verifyOtp(apiPayload, token);
+      const { data: user, accessToken, refreshToken, success } = data;
 
+      dispatch(handleLogin({ user, accessToken, refreshToken }));
 
-      dispatch(handleLogin({user,accessToken,refreshToken}))
-  
       // Check backend success
       if (success) {
-        console.log('✅ OTP Verified Successfully:', otpValue)
-      
+        console.log("✅ OTP Verified Successfully:", otpValue);
+
         // 🎯 Redirect to dashboard after successful OTP verification
-        navigate('/', { 
-          state: { 
+        navigate("/", {
+          state: {
             verified: true,
             phone: formatPhoneNumber(),
-            verificationTime: new Date().toISOString()
+            verificationTime: new Date().toISOString(),
           },
-          replace: true // This prevents going back to OTP page
-        })
-        
+          replace: true, // This prevents going back to OTP page
+        });
       } else {
-        setError('root', { 
-          type: 'manual', 
-          message: apiResponse?.data?.message || 'Invalid OTP. Please try again.' 
-        })
-        reset()
-        document.getElementById('otp-0')?.focus()
+        setError("root", {
+          type: "manual",
+          message:
+            apiResponse?.data?.message || "Invalid OTP. Please try again.",
+        });
+        reset();
+        document.getElementById("otp-0")?.focus();
       }
     } catch (error) {
-      console.error('❌ OTP Verification Error:', error)
-      
+      console.error("❌ OTP Verification Error:", error);
+
       // Better error handling
-      const errorMessage = error.response?.data?.message || 
-                          error.response?.data?.error || 
-                          'Verification failed. Please try again.'
-      
-      setError('root', { 
-        type: 'manual', 
-        message: errorMessage
-      })
-      reset()
-      document.getElementById('otp-0')?.focus()
+      const errorMessage =
+        error.response?.data?.message ||
+        error.response?.data?.error ||
+        "Verification failed. Please try again.";
+
+      setError("root", {
+        type: "manual",
+        message: errorMessage,
+      });
+      reset();
+      document.getElementById("otp-0")?.focus();
     } finally {
-      setIsSubmitting(false)
+      setIsSubmitting(false);
     }
-  }
+  };
 
   // Resend OTP
   const handleResendOtp = async () => {
-    setTimeLeft(60)
-    setCanResend(false)
-    reset()
-    clearErrors()
+    setTimeLeft(60);
+    setCanResend(false);
+    reset();
+    clearErrors();
 
     // ✅ Fixed: Get correct phone number from redux
-    const phoneNumber = response?.data?.phoneNumber || response?.data?.phone_number
-    console.log('Resending OTP to:', formatPhoneNumber())
-
+    const phoneNumber =
+      response?.data?.phoneNumber || response?.data?.phone_number;
+    console.log("Resending OTP to:", formatPhoneNumber());
+ const loginPyaload={
+        phone_number:  response?.data?.phoneNumber || response?.data?.phone_number,
+        countryCode:response?.data?.countryCode
+      }
     // Simulate API call for resending OTP
     try {
       // Replace with actual resend API call
-      await new Promise((resolve) => setTimeout(resolve, 500))
-      console.log('OTP resent successfully')
+
+      const res=await jwt.login(loginPyaload);
+      console.log("resend otp",res);
+      
+      await new Promise((resolve) => setTimeout(resolve, 500));
+      console.log("OTP resent successfully");
     } catch (error) {
-      console.error('Resend OTP Error:', error)
-      setError('root', { 
-        type: 'manual', 
-        message: 'Failed to resend OTP. Please try again.' 
-      })
+      console.error("Resend OTP Error:", error);
+      setError("root", {
+        type: "manual",
+        message: "Failed to resend OTP. Please try again.",
+      });
     }
 
     // Focus first input after resend
-    document.getElementById('otp-0')?.focus()
-  }
+    document.getElementById("otp-0")?.focus();
+  };
 
   // ✅ Fixed: Format phone number for display - handle both response structures
   const formatPhoneNumber = () => {
     // Handle both register and login response structures
-    const countryCode = response?.data?.countryCode || response?.countryCode || '+91'
-    const phoneNumber = response?.data?.phoneNumber || response?.data?.phone_number || response?.phone_number
-    return `${countryCode} ${phoneNumber}`
-  }
-  
-  // ✅ Fixed: Get OTP from redux for display - handle both response structures  
+    const countryCode =
+      response?.data?.countryCode || response?.countryCode || "+91";
+    const phoneNumber =
+      response?.data?.phoneNumber ||
+      response?.data?.phone_number ||
+      response?.phone_number;
+    return `${countryCode} ${phoneNumber}`;
+  };
+
+  // ✅ Fixed: Get OTP from redux for display - handle both response structures
   const getOtpFromRedux = () => {
-    return response?.data?.otp || response?.otp
-  }
+    return response?.data?.otp || response?.otp;
+  };
+
+  useEffect(() => {
+    if (response) {
+      getOtpFromRedux();
+    }
+  }),
+    [response];
 
   // Get error message
-  const errorMessage = errors.root?.message || ''
-  const hasError = !!errorMessage
+  const errorMessage = errors.root?.message || "";
+  const hasError = !!errorMessage;
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4"> 
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
       {/* Card Wrapper with Shadow */}
       <div className="bg-white rounded-xl shadow-xl border border-gray-100 p-8 w-full max-w-xl">
         <div className="space-y-6">
@@ -264,13 +302,48 @@ const dispatch=useDispatch()
             <p className="text-primary font-medium text-lg">
               {formatPhoneNumber()}
             </p>
-            <p>your otp is {getOtpFromRedux()}</p>
+            {/* <p>your otp is {getOtpFromRedux()}</p> */}
             {/* <p>your token is : {response?.data?.token || response?.token}</p> */}
           </div>
 
           {/* OTP Input Form */}
           <form onSubmit={handleSubmit(handleOtpSubmit)} className="space-y-6">
             {/* OTP Input Boxes */}
+            {/* <div className="flex justify-center gap-2">
+              {[0, 1, 2, 3].map((index) => (
+                <Controller
+                  key={index}
+                  name={`otp${index}`}
+                  control={control}
+                  render={({ field: { onChange, value } }) => (
+                    <input
+                      id={`otp-${index}`}
+                      type="text"
+                      inputMode="numeric"
+                      maxLength="1"
+                      value={value}
+                      // value={otp?.[index]}
+                      onChange={(e) =>
+                        handleOtpChange(index, e.target.value, onChange)
+                      }
+                      onKeyDown={(e) => handleKeyDown(index, e)}
+                      onPaste={index === 0 ? handlePaste : undefined}
+                      className={`w-12 h-12 text-center text-xl font-semibold border-2 rounded-lg 
+                        focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-20 transition-all duration-200
+                        ${
+                          hasError
+                            ? "border-red-500 bg-red-50"
+                            : value
+                            ? "border-primary bg-primary bg-opacity-5"
+                            : "border-gray-300 hover:border-gray-400"
+                        }`}
+                      placeholder="0"
+                    />
+                  )}
+                />
+              ))}
+            </div> */}
+
             <div className="flex justify-center gap-2">
               {[0, 1, 2, 3].map((index) => (
                 <Controller
@@ -284,28 +357,32 @@ const dispatch=useDispatch()
                       inputMode="numeric"
                       maxLength="1"
                       value={value}
-                      onChange={(e) => handleOtpChange(index, e.target.value, onChange)}
+                      onChange={(e) =>
+                        handleOtpChange(index, e.target.value, onChange)
+                      }
                       onKeyDown={(e) => handleKeyDown(index, e)}
                       onPaste={index === 0 ? handlePaste : undefined}
                       className={`w-12 h-12 text-center text-xl font-semibold border-2 rounded-lg 
-                        focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-20 transition-all duration-200
-                        ${hasError
-                          ? 'border-red-500 bg-red-50'
-                          : value
-                            ? 'border-primary bg-primary bg-opacity-5'
-                            : 'border-gray-300 hover:border-gray-400'
-                        }`}
+              focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-20 transition-all duration-200
+              ${
+                hasError
+                  ? "border-red-500 bg-red-50"
+                  : value
+                  ? "border-primary bg-primary bg-opacity-5"
+                  : "border-gray-300 hover:border-gray-400"
+              }`}
                       placeholder="0"
                     />
                   )}
                 />
               ))}
             </div>
-
             {/* Error Message */}
             {hasError && (
               <div className="text-center">
-                <p className="text-red-500 text-sm font-medium">{errorMessage}</p>
+                <p className="text-red-500 text-sm font-medium">
+                  {errorMessage}
+                </p>
               </div>
             )}
 
@@ -313,8 +390,8 @@ const dispatch=useDispatch()
             <div className="text-center">
               {!canResend ? (
                 <p className="text-gray-600 text-sm">
-                  Resend code in{' '}
-                  <span className="text-primary font-medium">{timeLeft}s</span>
+                  Resend code in{" "}
+                  <span className="text-primary font-medium">{timeLeft}s</span> 
                 </p>
               ) : (
                 <div>
@@ -334,9 +411,10 @@ const dispatch=useDispatch()
 
             {/* Action Buttons */}
             <div className="flex gap-3 pt-2">
-              <button
+              {/* <button
                 type="button"
-                onClick={onBack}
+                // onClick={onBack}
+                onClick={() => navigate(-1)}
                 className="flex-1 py-2 px-4 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary transition-colors duration-200"
               >
                 <svg
@@ -353,10 +431,10 @@ const dispatch=useDispatch()
                   />
                 </svg>
                 Back
-              </button>
+              </button> */}
               <button
                 type="submit"
-                disabled={isSubmitting || watchedOtp.join('').length !== 4}
+                // disabled={isSubmitting || watchedOtp.join("").length !== 4}
                 className="flex-1 py-2 px-4 bg-primary text-white rounded-md hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200 flex items-center justify-center"
               >
                 {isSubmitting ? (
@@ -383,7 +461,7 @@ const dispatch=useDispatch()
                     Verifying...
                   </>
                 ) : (
-                  'Verify OTP'
+                  "Verify OTP"
                 )}
               </button>
             </div>
@@ -399,7 +477,7 @@ const dispatch=useDispatch()
           </div>
 
           {/* Debug Info (Remove in production) */}
-          {process.env.NODE_ENV === 'development' && (
+          {process.env.NODE_ENV === "development" && (
             <div className="text-center border-t border-gray-100 pt-4">
               <p className="text-gray-400 text-xs">
                 Debug: Use OTP <strong>{getOtpFromRedux()}</strong> for testing
@@ -409,7 +487,7 @@ const dispatch=useDispatch()
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default OTPVerification
+export default OTPVerification;
