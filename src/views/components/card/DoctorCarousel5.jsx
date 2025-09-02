@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react'
 import { Link } from 'react-router-dom'
+import DrOne from "./../../../assets/MetavetImages/Dr profile/dr2.png"
 
 const DoctorCarousel5 = () => {
   const [currentIndex, setCurrentIndex] = useState(0)
@@ -12,7 +13,7 @@ const DoctorCarousel5 = () => {
       name: 'Dr. Jane Doe',
       specialty: 'Cardiology Specialist',
       description: 'Specializing in Pet Surgery & Diagnostics',
-      image: './src/assets/MetavetImages/dr2.png',
+      image: DrOne,
       profileLink: '/viewprofile5',
     },
     {
@@ -20,7 +21,7 @@ const DoctorCarousel5 = () => {
       name: 'Dr. John Smith',
       specialty: 'Emergency Veterinarian',
       description: 'Specialized in Emergency Care & Critical Medicine',
-      image: './src/assets/MetavetImages/dr2.png',
+      image: DrOne,
       profileLink: '/viewprofile5',
     },
     {
@@ -28,7 +29,7 @@ const DoctorCarousel5 = () => {
       name: 'Dr. Sarah Wilson',
       specialty: 'Dermatology Specialist',
       description: 'Expert in Pet Skin Conditions & Allergies',
-      image: './src/assets/MetavetImages/dr2.png',
+      image: DrOne,
       profileLink: '/viewprofile5',
     },
     {
@@ -36,7 +37,7 @@ const DoctorCarousel5 = () => {
       name: 'Dr. Michael Brown',
       specialty: 'Orthopedic Surgeon',
       description: 'Specializing in Bone & Joint Surgery',
-      image: './src/assets/MetavetImages/dr2.png',
+      image: DrOne,
       profileLink: '/viewprofile5',
     },
     {
@@ -44,7 +45,7 @@ const DoctorCarousel5 = () => {
       name: 'Dr. Emily Davis',
       specialty: 'Internal Medicine',
       description: 'Expert in Complex Diagnostic Cases',
-      image: './src/assets/MetavetImages/dr2.png',
+      image: DrOne,
       profileLink: '/viewprofile5',
     },
   ]

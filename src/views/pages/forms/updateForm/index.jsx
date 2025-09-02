@@ -13,35 +13,36 @@ const DoctorProfileForm = ({ onSubmit }) => {
   const response = useSelector((state) => state.user.data);
 
   const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
-    defaultValues: {
-      experienceYears: "8",
-      hospitalClinicName: "Sunrise Medical Center",
-      hospitalClinicAddress: "456 Residency Road, Whitefield",
-      pincode: "560066",
-      address: "Apt 12B, Maple Residency, Whitefield",
-      country: "India",
-      city: "Bengaluru",
-      state: "Karnataka",
-      bio: "Dr. Neha Kapoor is a skilled neurologist with expertise in treating complex neurological disorders and guiding patients through recovery.",
-      consultationFee: "1500",
-      gender: "Female",
-      dateOfBirth: "1985-11-22",
-      licenseNumber: "KADR89123",
-      licenseIssueDate: "2012-08-10",
-      licenseExpiryDate: "2032-08-09",
-      qualification: "MBBS, MD (Neurology)",
-      specialization: "Neurologist",
-      previousWorkplace: "Manipal Hospital",
-      joiningDate: "2022-01-15",
-      employmentType: "Part-time",
-      isActive: true,
-      emergencyContactNumber: "9123456780",
-    },
-  });
+  register,
+  handleSubmit,
+  formState: { errors },
+} = useForm({
+  defaultValues: {
+    experienceYears: "12",
+  hospitalClinicName: "Sunrise Medical Center",
+  hospitalClinicAddress: "742 Evergreen Terrace, Apt 3B",
+  pincode: "998855",
+  address: "Suite 21B, Springfield Plaza",
+  country: "United States",
+  city: "Springfield",
+  state: "Illinois",
+  bio: "Dr. John Carter is a board-certified cardiologist with over a decade of experience in managing complex heart conditions and providing compassionate patient care.",
+  consultationFee: "200",
+  gender: "MALE",
+  dateOfBirth: "1978-06-14",
+  licenseNumber: "ILCARD78945",
+  licenseIssueDate: "2010-04-15",
+  licenseExpiryDate: "2030-04-14",
+  qualification: "MBBS, MD (Cardiology)",
+  specialization: "Cardiologist",
+  previousWorkplace: "Mercy General Hospital",
+  joiningDate: "2022-09-01",
+  employmentType: "Full-time",
+  isActive: true,
+  emergencyContactNumber: "3125558976",
+  },
+})
+  
 
   // ✅ Form Submit
   const handleFormSubmit = async (data) => {

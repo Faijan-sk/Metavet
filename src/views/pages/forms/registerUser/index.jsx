@@ -23,11 +23,11 @@ const index = ({ onSubmit, onSwitchToLogin, onClose }) => {
     clearErrors,
   } = useForm({
     defaultValues: {
-      firstName: 'Rohit',
-      lastName: 'Sonawane',
-      countryCode: '+91',
-      phoneNumber: '1234567890',
-      email: 'rohit@gmail.com',
+      firstName: '',
+      lastName: '',
+      countryCode: '+1',
+      phoneNumber: '',
+      email: '',
       userType: 0,
     },
   })

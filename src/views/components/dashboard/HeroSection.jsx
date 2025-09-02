@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import BannerOne from "./../../../assets/MetavetImages/dashboard images/bannerOne.png"
 
 const HeroSection = () => {
   return (
@@ -65,7 +66,7 @@ const HeroSection = () => {
             <div className="pt-4">
               <img
                 className="w-full bg-blue-100 rounded-full "
-                src=".\src\assets\MetavetImages\happy-man-with-group-dogs-front-him-3d-render-removebg-preview.png"
+                src={BannerOne}
                 alt=""
               />
             </div>
