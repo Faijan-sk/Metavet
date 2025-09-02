@@ -260,6 +260,9 @@
 // export default Footer;
 
 import React, { useState } from "react";
+import PlayStore from "./../../../assets/MetavetImages/logo/google-play.png"
+import AppStore from "./../../../assets/MetavetImages/logo/app-store.png"
+
 
 const Footer = () => {
   // State to handle the dropdown visibility
@@ -513,7 +516,7 @@ const Footer = () => {
               className="flex items-center border-2 border-gray-200 p-2 rounded-lg"
             >
               <img
-                src="./src/assets/MetavetImages/google-play.png"
+                src={PlayStore}
                 alt="Google Play"
                 className="w-12 h-12 " // Adjusted to create space between image and text
               />
@@ -531,7 +534,7 @@ const Footer = () => {
               className="flex items-center border-2 border-gray-200 p-2 rounded-lg mt-2"
             >
               <img
-                src="./src/assets/MetavetImages/app-store.png"
+                src={AppStore}
                 alt="App Store"
                 className="w-10 h-10" // Adjusted to create space between image and text
               />

@@ -1,5 +1,8 @@
 import React from "react";
 
+//images import 
+import Banner from "./../../../../src/assets/MetavetImages/dashboard images/bannerTwo.jpg"
+
 const Div2 = () => {
   return (
     <section className="sm:mt-6 lg:mt-8 mt-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -7,7 +10,7 @@ const Div2 = () => {
         <div className="lg:inset-y-0 lg:right-0 lg:w-1/2 my-4  ">
           <img
             className="h-56 w-full object-cover sm:h-72 md:h-96 lg:w-full lg:h-full"
-            src=".\src\assets\MetavetImages\4198540.8a962715ebef6a697dbf.jpg"
+            src={Banner}
             alt=""
           />
         </div>

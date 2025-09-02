@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import DoctorProfile from "./../../../assets/MetavetImages/Dr profile/dr4.png"
 
 // Example doctor images
 const doctorImages = {
@@ -195,7 +196,7 @@ const Appointment = () => {
                 </td>
                 <td className="px-4 py-2 text-sm text-gray-700 flex items-center">
                   <img
-                    src={doctorImages[appointment.doctor]}
+                    src={DoctorProfile}
                     alt={appointment.doctor}
                     className="w-24 h-20 mt-4 rounded-full"
                   />

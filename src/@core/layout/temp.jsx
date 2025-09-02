@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 
+//import images 
+import Logo from "./../../assets/MetavetImages/logo/navLogo.png"
 const navItems = [
   { name: 'Find a Doctor', path: '/finddoctor', active: true },
   { name: 'Appointment', path: '/appointment', active: true },
@@ -129,7 +131,7 @@ const Header = () => {
         <div className="flex items-center">
           <Link to="/" className="flex items-center">
             <img
-              src="./src/assets/MetavetImages/iconpng (1).png"
+              src={Logo}
               alt="logo"
               className="w-8 h-8 sm:w-10 sm:h-10 object-contain"
             />
