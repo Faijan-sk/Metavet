@@ -17,8 +17,8 @@ export default {
  getDoctorBySpecialityEndPoint:'api/doctors/specialization',
  getAllSpecializationEndPoint : 'api/doctors/specializations/available',
  getActiveSpecializationEndPoint : 'api/doctors/specializations/active',
-
-
+ createPets:'/api/pets/create',
+getAllPets:'/api/pets/owner/',
 
 
 

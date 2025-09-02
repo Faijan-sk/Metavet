@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 
 // Example doctor images
 const doctorImages = {
@@ -154,7 +154,7 @@ const Appointment = () => {
       <p className="text-center text-3xl font-semibold">Pet Appointments</p>
 
       {/* Horizontal scroll below xl */}
-      <div className="overflow-x-auto xl:overflow-visible mt-10">
+      {/* <div className="overflow-x-auto xl:overflow-visible mt-10">
         <table className="min-w-[1200px] xl:min-w-full table-auto bg-white border-collapse">
           <thead>
             <tr className="border-b bg-primary">
@@ -165,7 +165,7 @@ const Appointment = () => {
                 Doctor
               </th>
               <th className="px-4 py-2 text-left font-semibold text-white">
-                Vet/Provider Name
+                Vet/Provider Name 
               </th>
               <th className="px-4 py-2 text-left font-semibold text-white">
                 Pet Type
@@ -314,7 +314,7 @@ const Appointment = () => {
             ))}
           </tbody>
         </table>
-      </div>
+      </div> */}
     </div>
   )
 }

@@ -1,5 +1,5 @@
   import axios from 'axios'
-  import jwtDefaultConfig from './jwtDefaultConfig'
+import jwtDefaultConfig from './jwtDefaultConfig'
 
   axios.defaults.baseURL = 'http://192.168.29.200:8010/'
 
@@ -143,6 +143,14 @@ createDoctor(payload) {
 
   getDoctorById(doctorId) {
     return axios.get(`${this.jwtConfig.getDoctorByIdEndPoint}/${doctorId}`)
+  }
+
+  createPets(...args) {
+    return axios.post(this.jwtConfig.createPets,...args)
+  }
+  
+  getAllPets(userId) {
+    return axios.get(`${this.jwtConfig.getAllPets}${userId}`)
   }
 
   }
