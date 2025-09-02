@@ -1,9 +1,7 @@
-<<<<<<< HEAD
+
 import { useState } from 'react'
-=======
-import React, { useState } from 'react'
+
 import DoctorProfile from "./../../../assets/MetavetImages/Dr profile/dr4.png"
->>>>>>> 74c1172d07b4a0fa39e87fc41f894c2bea4f3e03
 
 // Example doctor images
 const doctorImages = {
